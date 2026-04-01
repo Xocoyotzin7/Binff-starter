@@ -39,7 +39,7 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
                   : "Flexible packages that adapt to the project, not the other way around."}
             </h2>
             <p className="text-sm leading-7 text-muted-foreground md:text-base">{copy.packages.description}</p>
-          <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2">
               {(locale === "es"
                 ? ["Landing rápida", "Sitio de conversión", "Plataforma web + mobile"]
                 : locale === "fr"

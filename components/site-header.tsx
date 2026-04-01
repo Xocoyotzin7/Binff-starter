@@ -29,9 +29,9 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
   return (
     <>
       <div className="pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4 sm:px-6">
-        <header className="pointer-events-auto relative flex w-full max-w-[1100px] items-center gap-4 rounded-3xl border px-4 py-3 text-sm font-semibold shadow-2xl transition-all duration-500 backdrop-blur-md text-gray-900 dark:text-white border-black/5 bg-white/80 dark:border-white/10 dark:bg-black/60">
-          <Link href="/" className="flex flex-col leading-tight">
-            <span className="text-sm font-semibold text-foreground">{copy.brand.name}</span>
+        <header className="pointer-events-auto relative flex w-full max-w-[1100px] items-center justify-between gap-3 rounded-3xl border px-3 py-3 text-sm font-semibold shadow-2xl transition-all duration-500 backdrop-blur-md text-gray-900 dark:text-white border-black/5 bg-white/80 dark:border-white/10 dark:bg-black/60 sm:px-4">
+          <Link href="/" className="flex min-w-0 flex-col leading-tight">
+            <span className="truncate text-sm font-semibold text-foreground sm:text-base">{copy.brand.name}</span>
           </Link>
 
           <nav className="hidden flex-1 items-center justify-center gap-4 sm:flex lg:gap-6">
@@ -72,7 +72,7 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
             })}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             <LanguageSwitcher locale={locale} />
             <ThemeSwitcher />
           </div>

@@ -242,13 +242,13 @@ export function ServicesPhoneShowcase({ locale, cards }: ServicesPhoneShowcasePr
             {copy.description}
           </p>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-xs font-semibold">
-            <span className={`rounded-full border px-3 py-2 ${serviceChipSurfaces[0]}`}>
+            <span className={`rounded-full border px-3 py-2 shadow-[0_10px_25px_-18px_rgba(2,6,23,0.25)] ${serviceChipSurfaces[0]}`}>
               We can modernize your app or website
             </span>
-            <span className={`rounded-full border px-3 py-2 ${serviceChipSurfaces[1]}`}>
+            <span className={`rounded-full border px-3 py-2 shadow-[0_10px_25px_-18px_rgba(2,6,23,0.25)] ${serviceChipSurfaces[1]}`}>
               AI + crypto integrations
             </span>
-            <span className={`rounded-full border px-3 py-2 ${serviceChipSurfaces[2]}`}>
+            <span className={`rounded-full border px-3 py-2 shadow-[0_10px_25px_-18px_rgba(2,6,23,0.25)] ${serviceChipSurfaces[2]}`}>
               Product and marketing execution
             </span>
           </div>
