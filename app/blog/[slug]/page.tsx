@@ -42,7 +42,7 @@ export default function BlogPostPage({ params }: PageProps) {
             <span>{post.readTime}</span>
           </div>
           <div className="flex flex-wrap justify-center gap-3">
-            <Button asChild className="rounded-full bg-[color:var(--foreground)] px-5 text-sm font-semibold text-white hover:bg-[color:var(--foreground)]/90">
+            <Button asChild className="rounded-full bg-[color:var(--foreground)] px-5 text-sm font-semibold text-black hover:bg-[color:var(--foreground)]/90">
               <Link href="/blog">
                 Back to blog
                 <ArrowUpRight className="h-4 w-4" />

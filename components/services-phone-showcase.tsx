@@ -26,6 +26,7 @@ type PeripheralCard = {
   title: string
   description: string
   glow?: boolean
+  surfaceClass: string
 }
 
 type PeripheralLayout = {
@@ -53,6 +54,12 @@ const serviceChipSurfaces = [
   "bg-gradient-to-br from-accent/20 via-background to-primary/10 text-[color:var(--accent)] border-accent/20",
   "bg-gradient-to-br from-sky-400/20 via-background to-accent/15 text-sky-700 border-sky-400/20 dark:text-sky-200",
   "bg-gradient-to-br from-emerald-400/20 via-background to-accent/15 text-emerald-700 border-emerald-400/20 dark:text-emerald-200",
+] as const
+
+const serviceCardSurfaces = [
+  "from-accent/20 via-background to-primary/10",
+  "from-sky-400/20 via-background to-accent/15",
+  "from-emerald-400/20 via-background to-accent/15",
 ] as const
 
 const EASE_OUT = "cubic-bezier(0.22, 1, 0.36, 1)"
@@ -87,13 +94,16 @@ function PeripheralCardView({
     <div
       className={cn(
         "relative overflow-hidden rounded-[22px] border p-3 shadow-[0_26px_75px_rgba(2,6,23,0.24)] antialiased [transform:translateZ(0)] [backface-visibility:hidden]",
-        "bg-white/88 border-black/10 text-slate-900",
-        "dark:bg-slate-950/60 dark:border-white/15 dark:text-white",
+        "bg-gradient-to-br border-black/10 text-slate-900",
+        card.surfaceClass,
+        "dark:border-white/15 dark:text-white",
         card.glow && "ring-1 ring-[color:var(--accent)]/35",
       )}
       role="img"
       aria-label={card.title}
     >
+      <div className="pointer-events-none absolute -right-8 -top-8 h-20 w-20 rounded-full bg-accent/18 blur-xl dark:bg-accent/12" />
+      <div className="pointer-events-none absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-primary/14 blur-xl dark:bg-primary/10" />
       <div className="flex items-start gap-2.5">
         <div
           className={cn(
@@ -190,6 +200,7 @@ export function ServicesPhoneShowcase({ locale, cards }: ServicesPhoneShowcasePr
         title: card.title,
         description: card.summary,
         glow: card.title === "AI + Crypto integrations" || card.title === "Mobile app" || card.title === "Web design",
+        surfaceClass: serviceCardSurfaces[index % serviceCardSurfaces.length],
       }
     })
   }, [cards])
