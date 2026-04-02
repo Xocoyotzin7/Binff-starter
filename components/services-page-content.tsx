@@ -11,6 +11,13 @@ const serviceContextSurfaces = [
   "from-emerald-400/20 via-background to-accent/15",
 ] as const
 
+const serviceContextChipSurfaces = [
+  "bg-gradient-to-br from-accent/20 via-background to-primary/12 text-[color:var(--accent)] border-accent/20",
+  "bg-gradient-to-br from-sky-400/20 via-background to-accent/10 text-sky-700 border-sky-400/20 dark:text-sky-200",
+  "bg-gradient-to-br from-emerald-400/20 via-background to-accent/10 text-emerald-700 border-emerald-400/20 dark:text-emerald-200",
+  "bg-gradient-to-br from-accent/20 via-background to-primary/12 text-[color:var(--accent)] border-accent/20",
+] as const
+
 type ServicesPageContentProps = {
   locale: Locale
 }
@@ -59,8 +66,11 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
                 : locale === "fr"
                   ? ["Modernisation de sites", "Apps plus rapides", "IA intégrée", "Crypto utile"]
                   : ["Website modernization", "Faster apps", "AI integrated", "Crypto where useful"]
-              ).map((item) => (
-                <span key={item} className="rounded-full border border-border/60 bg-background/75 px-3 py-1 text-xs font-medium text-muted-foreground">
+              ).map((item, index) => (
+                <span
+                  key={item}
+                  className={`rounded-full border px-3 py-1 text-xs font-medium shadow-[0_10px_25px_-18px_rgba(2,6,23,0.25)] ${serviceContextChipSurfaces[index % serviceContextChipSurfaces.length]}`}
+                >
                   {item}
                 </span>
               ))}

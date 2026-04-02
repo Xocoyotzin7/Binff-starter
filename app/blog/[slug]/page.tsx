@@ -25,6 +25,7 @@ export default function BlogPostPage({ params }: PageProps) {
   if (!post) notFound()
 
   const html = renderMdxToHtml(post.content)
+  const ctaClassName = "rounded-full bg-[color:var(--foreground)] px-5 text-sm font-semibold text-white hover:bg-[color:var(--foreground)]/90 dark:text-black"
 
   return (
     <main id="blog-post-scope" className="mx-auto w-full max-w-4xl px-4 pb-8 pt-28 sm:px-6 lg:pt-32">
@@ -42,14 +43,11 @@ export default function BlogPostPage({ params }: PageProps) {
             <span>{post.readTime}</span>
           </div>
           <div className="flex flex-wrap justify-center gap-3">
-            <Button asChild className="rounded-full bg-[color:var(--foreground)] px-5 text-sm font-semibold text-black hover:bg-[color:var(--foreground)]/90">
+            <Button asChild className={ctaClassName}>
               <Link href="/blog">
                 Back to blog
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
-            </Button>
-            <Button asChild variant="outline" className="rounded-full border-border/60 bg-card/80 px-5 text-sm font-semibold text-card-foreground hover:bg-card dark:bg-card/70">
-              <Link href="/#contact">Contact</Link>
             </Button>
           </div>
         </div>
