@@ -210,7 +210,7 @@ export function ServicesPhoneShowcase({ locale, cards }: ServicesPhoneShowcasePr
     const midGapX = isMobile ? 102 : 308
     const topY = isMobile ? -214 : -228
     const midY = isMobile ? -20 : -16
-    const bottomY = isMobile ? 202 : 224
+    const bottomY = isMobile ? 178 : 197
 
     return [
       { id: "top-left", initialX: -gapX, initialY: topY, initialRotate: -7, width: isMobile ? 172 : 220, height: isMobile ? 142 : 158 },
@@ -233,7 +233,7 @@ export function ServicesPhoneShowcase({ locale, cards }: ServicesPhoneShowcasePr
 
   const spreadMedium = isMobile ? 1.12 : 1.28
   const spreadLong = isMobile ? 1.4 : 1.78
-  const phoneXOffset = isMobile ? 58 : 168
+  const phoneXOffset = isMobile ? 64 : 168
   const phoneYOffset = isMobile ? lerp(175, -6, progressBoost) : lerp(165, -10, progressBoost)
   const peripheralRightBias = isMobile ? 13 : 34
 

@@ -80,7 +80,7 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
             </div>
             <div className="grid gap-3 md:hidden">
               {mobileContextCards.map((card, index) => {
-                const cardIndex = index
+                const cardIndex = index + 1
                 return (
                   <article
                     key={card.title}
@@ -91,13 +91,13 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
                       <div className="absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-primary/20 blur-xl" />
                       <div className="relative space-y-2">
                         <span className="inline-flex rounded-full border border-border/70 bg-background/75 px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
-                          0{cardIndex + 1}
+                          {String(cardIndex).padStart(2, "0")}
                         </span>
                         <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">{card.title}</h3>
                         <p className="text-sm leading-relaxed text-muted-foreground">{card.summary}</p>
                         <ul className="space-y-2 pt-1 text-xs leading-relaxed text-foreground">
                           {card.deliverables.map((deliverable) => (
-                            <li key={deliverable} className="flex gap-2">
+                            <li key={deliverable} className="flex justify-center gap-2 text-left">
                               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]" />
                               <span>{deliverable}</span>
                             </li>
@@ -112,35 +112,35 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
           </div>
           <div className="hidden grid gap-3 md:grid">
             {desktopLeftContextCards.map((card, index) => {
-              const cardIndex = index + 2
+              const cardIndex = index + 3
               return (
-              <article
-                key={card.title}
-                className={`rounded-[2rem] border border-border/70 bg-card/75 p-3 shadow-[0_10px_35px_-24px_rgba(2,6,23,0.55)] transition ${
-                  index === 1 ? "md:translate-y-2" : ""
-                }`}
-              >
-                <div className={`relative h-full overflow-hidden rounded-[1.4rem] border border-border/70 bg-gradient-to-br p-4 text-center ${serviceContextSurfaces[index % serviceContextSurfaces.length]}`}>
-                  <div className="absolute -right-8 -top-8 h-20 w-20 rounded-full bg-accent/20 blur-xl" />
-                  <div className="absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-primary/20 blur-xl" />
-                  <div className="relative space-y-2">
-                    <span className="inline-flex rounded-full border border-border/70 bg-background/75 px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
-                      0{index + 1}
-                    </span>
-                    <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">{card.title}</h3>
-                    <p className="text-sm leading-relaxed text-muted-foreground">{card.summary}</p>
-                    <ul className="space-y-2 pt-1 text-xs leading-relaxed text-foreground">
-                      {card.deliverables.map((deliverable) => (
-                        <li key={deliverable} className="flex gap-2">
-                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]" />
-                          <span>{deliverable}</span>
-                        </li>
-                      ))}
-                    </ul>
+                <article
+                  key={card.title}
+                  className={`rounded-[2rem] border border-border/70 bg-card/75 p-3 shadow-[0_10px_35px_-24px_rgba(2,6,23,0.55)] transition ${
+                    index === 1 ? "md:translate-y-2" : ""
+                  }`}
+                >
+                  <div className={`relative h-full overflow-hidden rounded-[1.4rem] border border-border/70 bg-gradient-to-br p-4 text-center ${serviceContextSurfaces[cardIndex % serviceContextSurfaces.length]}`}>
+                    <div className="absolute -right-8 -top-8 h-20 w-20 rounded-full bg-accent/20 blur-xl" />
+                    <div className="absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-primary/20 blur-xl" />
+                    <div className="relative space-y-2">
+                      <span className="inline-flex rounded-full border border-border/70 bg-background/75 px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
+                        {String(cardIndex).padStart(2, "0")}
+                      </span>
+                      <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">{card.title}</h3>
+                      <p className="text-sm leading-relaxed text-muted-foreground">{card.summary}</p>
+                      <ul className="space-y-2 pt-1 text-xs leading-relaxed text-foreground">
+                        {card.deliverables.map((deliverable) => (
+                          <li key={deliverable} className="flex justify-center gap-2 text-left">
+                            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]" />
+                            <span>{deliverable}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </article>
-            )
+                </article>
+              )
             })}
           </div>
 
@@ -157,13 +157,13 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
                   <div className="absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-primary/20 blur-xl" />
                   <div className="relative space-y-2">
                     <span className="inline-flex rounded-full border border-border/70 bg-background/75 px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
-                      0{index + 1}
+                      {String(index + 1).padStart(2, "0")}
                     </span>
                     <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">{card.title}</h3>
                     <p className="text-sm leading-relaxed text-muted-foreground">{card.summary}</p>
                     <ul className="space-y-2 pt-1 text-xs leading-relaxed text-foreground">
                       {card.deliverables.map((deliverable) => (
-                        <li key={deliverable} className="flex gap-2">
+                        <li key={deliverable} className="flex justify-center gap-2 text-left">
                           <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]" />
                           <span>{deliverable}</span>
                         </li>
