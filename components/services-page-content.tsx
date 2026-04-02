@@ -36,7 +36,7 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
       <HeadingTypewriter scopeSelector="#services-scope" />
 
       <ScrollReveal direction="up" once>
-        <MdxArticle title={doc.title} excerpt={doc.excerpt} html={renderMdxToHtml(doc.content)} />
+        <MdxArticle title={doc.title} excerpt={doc.excerpt} html={renderMdxToHtml(doc.content, { centerParagraphs: true })} />
       </ScrollReveal>
 
       <div className="mt-14 md:mt-16">

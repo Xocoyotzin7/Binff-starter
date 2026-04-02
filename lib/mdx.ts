@@ -71,14 +71,22 @@ function renderInline(source: string) {
     .replace(/`(.+?)`/g, '<code class="rounded bg-black/5 px-1.5 py-0.5 text-[0.92em] font-medium text-foreground">$1</code>')
 }
 
-export function renderMdxToHtml(source: string) {
+export function renderMdxToHtml(
+  source: string,
+  options?: {
+    centerParagraphs?: boolean
+  },
+) {
   const lines = source.replace(/\r\n/g, "\n").split("\n")
   const html: string[] = []
   let index = 0
+  const paragraphClass = options?.centerParagraphs
+    ? "mx-auto max-w-3xl text-center leading-7 text-muted-foreground"
+    : "leading-7 text-muted-foreground"
 
   const flushParagraph = (buffer: string[]) => {
     if (buffer.length === 0) return
-    html.push(`<p class="leading-7 text-muted-foreground">${renderInline(buffer.join(" ").trim())}</p>`)
+    html.push(`<p class="${paragraphClass}">${renderInline(buffer.join(" ").trim())}</p>`)
     buffer.length = 0
   }
 
