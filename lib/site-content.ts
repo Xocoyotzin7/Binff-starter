@@ -11,7 +11,12 @@ export type PackageCard = {
   badge: string
   title: string
   summary: string
-  bullets: string[]
+  facts: {
+    label: string
+    value: string
+  }[]
+  includes: string[]
+  excludes: string[]
   note: string
 }
 
@@ -204,42 +209,52 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     packages: {
       eyebrow: "Packages",
-      title: "Website packages that can be shaped to the project.",
+      title: "Website packages without prices for now.",
       description:
-        "The scope is intentionally flexible for now. These cards establish the level of service and the kind of result each package should aim for.",
+        "Starter and Growth define the scope, deliverables, and fit. If you need something outside these options, we can quote it separately.",
       cards: [
         {
           badge: "Starter",
-          title: "Launch Site",
-          summary: "A focused website for a new business or product that needs a credible presence fast.",
-          bullets: [
-            "One clear message and one conversion path.",
-            "Responsive design with bilingual navigation.",
-            "Contact form, WhatsApp or Telegram CTA, and basic analytics.",
+          title: "Landing Site",
+          summary: "A lean website for testing a new idea.",
+          facts: [
+            { label: "Best for", value: "Testing a new idea." },
+            { label: "Pages", value: "1 (Landing Page)." },
+            { label: "Reviews", value: "No." },
+            { label: "Revisions", value: "2 rounds." },
           ],
-          note: "Best when the goal is to go live quickly and validate demand.",
+          includes: ["5 pictures", "2 POC/CTA", "2 rounds of revisions"],
+          excludes: ["Reviews", "Advanced SEO", "Multi-page structure"],
+          note: "Best when the goal is to validate demand fast.",
         },
         {
           badge: "Growth",
           title: "Conversion Site",
-          summary: "A broader website for brands that want SEO, content, and stronger lead generation.",
-          bullets: [
-            "Multi-page structure with service and trust sections.",
-            "SEO foundations, blog-ready architecture, and performance work.",
-            "Better tracking for leads, events, and campaign attribution.",
+          summary: "A fuller website for scaling a real business.",
+          facts: [
+            { label: "Best for", value: "Scaling a real business." },
+            { label: "Pages", value: "5 (Full Website)." },
+            { label: "SEO", value: "Basic Indexing." },
+            { label: "Maps", value: "Google or Apple Maps." },
+            { label: "Revisions", value: "3 rounds." },
           ],
+          includes: ["15 pictures", "2 themes", "2 languages", "5 POC/CTA"],
+          excludes: ["Custom app flows", "Advanced automation", "Full e-commerce build"],
           note: "Best when the site needs to support ongoing marketing.",
         },
         {
           badge: "Scale",
-          title: "Web + Mobile Platform",
-          summary: "A custom build for companies that need a website plus a mobile experience or internal workflow.",
-          bullets: [
-            "Custom product logic and integrations.",
-            "Mobile-ready flows for clients, staff, or operations.",
-            "Roadmap-friendly architecture that can grow over time.",
+          title: "Custom Quote",
+          summary: "Need another type of website? We can scope it and price it separately.",
+          facts: [
+            { label: "Best for", value: "Other site types." },
+            { label: "Scope", value: "Custom." },
+            { label: "Estimate", value: "By request." },
+            { label: "Contact", value: "Email or WhatsApp." },
           ],
-          note: "Best when the business needs more than a brochure site.",
+          includes: ["Discovery call", "Scope definition", "Quote by email or WhatsApp"],
+          excludes: ["Fixed package pricing", "One-size-fits-all scope"],
+          note: "If the project does not fit Starter or Growth, contact us for more info.",
         },
       ],
     },
@@ -348,42 +363,52 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     packages: {
       eyebrow: "Forfaits",
-      title: "Des forfaits web flexibles, encore ajustables.",
+      title: "Des forfaits web sans prix pour le moment.",
       description:
-        "Le périmètre reste volontairement ouvert. Ces cartes définissent le niveau de service et le type de résultat attendu.",
+        "Starter et Growth définissent le périmètre, les livrables et l’adéquation. Si vous avez besoin de quelque chose d’autre, nous pouvons le chiffrer à part.",
       cards: [
         {
           badge: "Démarrage",
-          title: "Site de lancement",
-          summary: "Un site ciblé pour une marque ou un produit qui doit être lancé rapidement.",
-          bullets: [
-            "Message unique et parcours de conversion simple.",
-            "Design responsive avec navigation bilingue.",
-            "Formulaire, CTA WhatsApp ou Telegram, et analytics de base.",
+          title: "Site de landing",
+          summary: "Un site léger pour tester une nouvelle idée.",
+          facts: [
+            { label: "Idéal pour", value: "Tester une nouvelle idée." },
+            { label: "Pages", value: "1 (Landing Page)." },
+            { label: "Reviews", value: "Non." },
+            { label: "Révisions", value: "2 rounds." },
           ],
-          note: "Idéal pour sortir en ligne rapidement et tester le marché.",
+          includes: ["5 images", "2 POC/CTA", "2 rounds de révisions"],
+          excludes: ["Reviews", "SEO avancé", "Structure multi-pages"],
+          note: "Idéal pour valider la demande rapidement.",
         },
         {
           badge: "Croissance",
           title: "Site de conversion",
-          summary: "Un site plus complet pour les marques qui veulent SEO, contenu et génération de leads.",
-          bullets: [
-            "Structure multi-pages avec sections services et confiance.",
-            "Fondations SEO, architecture compatible blog et performance.",
-            "Suivi plus précis des leads et des campagnes.",
+          summary: "Un site plus complet pour faire grandir une vraie entreprise.",
+          facts: [
+            { label: "Idéal pour", value: "Faire grandir une vraie entreprise." },
+            { label: "Pages", value: "5 (Site complet)." },
+            { label: "SEO", value: "Indexation de base." },
+            { label: "Maps", value: "Google ou Apple Maps." },
+            { label: "Révisions", value: "3 rounds." },
           ],
+          includes: ["15 images", "2 thèmes", "2 langues", "5 POC/CTA"],
+          excludes: ["Flux d’app custom", "Automatisations avancées", "E-commerce complet"],
           note: "Idéal pour soutenir un marketing continu.",
         },
         {
           badge: "Échelle",
-          title: "Plateforme web + mobile",
-          summary: "Une solution sur mesure pour les entreprises qui ont besoin d’un site et d’une expérience mobile.",
-          bullets: [
-            "Logique produit et intégrations sur mesure.",
-            "Flux mobiles pour clients, équipes ou opérations.",
-            "Architecture prête à évoluer avec l’entreprise.",
+          title: "Devis sur mesure",
+          summary: "Vous cherchez un autre type de site web? Nous pouvons le définir et le chiffrer à part.",
+          facts: [
+            { label: "Idéal pour", value: "D’autres types de sites." },
+            { label: "Périmètre", value: "Sur mesure." },
+            { label: "Estimation", value: "Sur demande." },
+            { label: "Contact", value: "Email ou WhatsApp." },
           ],
-          note: "Idéal quand le besoin dépasse le simple site vitrine.",
+          includes: ["Appel de découverte", "Définition du scope", "Devis par email ou WhatsApp"],
+          excludes: ["Prix fixe", "Scope identique pour tous"],
+          note: "Si le projet sort de Starter ou Growth, contactez-nous pour plus d’infos.",
         },
       ],
     },
@@ -492,42 +517,52 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     packages: {
       eyebrow: "Packages",
-      title: "Paquetes web que todavía podemos ajustar al proyecto.",
+      title: "Paquetes web sin precios por ahora.",
       description:
-        "El alcance todavía es flexible. Estas cards marcan el nivel de servicio y el tipo de resultado que debe buscar cada paquete.",
+        "Starter y Growth definen el alcance, los entregables y el tipo de proyecto. Si necesitas otro formato, lo cotizamos aparte.",
       cards: [
         {
           badge: "Starter",
-          title: "Launch Site",
-          summary: "Un sitio puntual para una marca o producto que necesita presencia rápida y sólida.",
-          bullets: [
-            "Un mensaje principal y una ruta clara de conversión.",
-            "Diseño responsive con navegación bilingüe.",
-            "Formulario, CTA a WhatsApp o Telegram y analytics básicos.",
+          title: "Landing Site",
+          summary: "Un sitio ligero para probar una nueva idea.",
+          facts: [
+            { label: "Ideal para", value: "Testing a new idea." },
+            { label: "Pages", value: "1 (Landing Page)." },
+            { label: "Reviews", value: "No." },
+            { label: "Revisions", value: "2 rounds." },
           ],
+          includes: ["5 pictures", "2 POC/CTA", "2 rounds of revisions"],
+          excludes: ["Reviews", "SEO avanzado", "Estructura multi-page"],
           note: "Ideal para salir rápido y validar demanda.",
         },
         {
           badge: "Growth",
           title: "Conversion Site",
-          summary: "Un sitio más amplio para marcas que quieren SEO, contenido y generación de leads.",
-          bullets: [
-            "Estructura multi-página con secciones de servicio y confianza.",
-            "Bases SEO, arquitectura lista para blog y optimización de performance.",
-            "Mejor tracking de leads, eventos y campañas.",
+          summary: "Un sitio más amplio para escalar un negocio real.",
+          facts: [
+            { label: "Ideal para", value: "Scaling a real business." },
+            { label: "Pages", value: "5 (Full Website)." },
+            { label: "SEO", value: "Basic Indexing." },
+            { label: "Maps", value: "Google or Apple Maps." },
+            { label: "Revisions", value: "3 rounds." },
           ],
+          includes: ["15 pictures", "2 themes", "2 languages", "5 POC/CTA"],
+          excludes: ["Custom app flows", "Advanced automation", "E-commerce completo"],
           note: "Ideal cuando el sitio debe apoyar marketing continuo.",
         },
         {
           badge: "Scale",
-          title: "Web + Mobile Platform",
-          summary: "Un build a la medida para negocios que necesitan sitio, app móvil o flujo interno.",
-          bullets: [
-            "Lógica de producto e integraciones personalizadas.",
-            "Flujos mobile para clientes, staff u operación.",
-            "Arquitectura lista para crecer con el negocio.",
+          title: "Cotización personalizada",
+          summary: "Si buscas otro tipo de sitio web, lo definimos y cotizamos aparte.",
+          facts: [
+            { label: "Ideal para", value: "Otro tipo de sitio." },
+            { label: "Scope", value: "Custom." },
+            { label: "Estimate", value: "On request." },
+            { label: "Contact", value: "Email or WhatsApp." },
           ],
-          note: "Ideal cuando el proyecto es más que una landing.",
+          includes: ["Discovery call", "Scope definition", "Quote by email or WhatsApp"],
+          excludes: ["Fixed package pricing", "One-size-fits-all scope"],
+          note: "Si el proyecto no entra en Starter o Growth, escríbenos para más info.",
         },
       ],
     },
