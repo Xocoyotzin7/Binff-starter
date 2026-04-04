@@ -75,7 +75,7 @@ type AboutPageContentProps = {
 
 function AboutIntroSection({ title, description }: Pick<(typeof aboutCopy)["en"], "title" | "description">) {
   return (
-    <ScrollReveal direction="up" once>
+    <ScrollReveal direction="up">
       <div className="mx-auto max-w-3xl text-center text-black dark:text-white">
         <p className="text-balance font-serif text-3xl leading-[1.02] tracking-tight text-black sm:text-4xl md:text-5xl dark:text-white">
           {title}
@@ -91,9 +91,9 @@ function AboutFeaturePanel({
   points,
 }: Pick<(typeof aboutCopy)["en"], "description" | "points">) {
   return (
-    <ScrollReveal direction="up" once className="mt-8">
+    <ScrollReveal direction="up" className="mt-8">
       <section className="grid gap-8 rounded-[2rem] border border-border/60 bg-card/80 p-5 text-card-foreground shadow-[0_18px_55px_-28px_rgba(2,6,23,0.45)] dark:bg-card/70 lg:grid-cols-[1.1fr_minmax(280px,0.9fr)] lg:p-8">
-        <ScrollReveal direction="down" once delay={0.24} className="flex flex-col justify-center text-left">
+        <ScrollReveal direction="down" delay={0.24} className="flex flex-col justify-center text-left">
           <p className="text-sm leading-7 text-card-foreground/90 md:text-base dark:text-card-foreground/85">{description}</p>
           <div className="mt-8">
             <ul className="grid gap-3 sm:grid-cols-2">
@@ -110,13 +110,69 @@ function AboutFeaturePanel({
           </div>
         </ScrollReveal>
 
-        <ScrollReveal direction="up" once delay={0.36} className="relative flex items-center justify-center">
+        <ScrollReveal direction="up" delay={0.36} className="relative flex items-center justify-center">
           <div className="absolute inset-0 rounded-[2rem] bg-white/10 blur-3xl dark:bg-black/25" />
           <div className="relative w-full p-2 sm:p-4">
             <Image src={BanffLight} alt="Banff Studio logo" priority className="block h-auto w-full dark:hidden" />
             <Image src={BanffDark} alt="Banff Studio logo" priority className="hidden h-auto w-full dark:block" />
           </div>
         </ScrollReveal>
+      </section>
+    </ScrollReveal>
+  )
+}
+
+function AboutMapsSection() {
+  return (
+    <ScrollReveal direction="up" className="mt-8">
+      <section className="space-y-4">
+        <details open className="group rounded-[2rem] border border-border/60 bg-card/80 p-5 shadow-[0_18px_55px_-28px_rgba(2,6,23,0.35)] dark:bg-card/70 md:p-6">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left">
+            <div className="space-y-1">
+              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--accent)]">G maps</p>
+              <h3 className="font-serif text-2xl leading-none tracking-tight text-card-foreground">Torre CN</h3>
+            </div>
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/70 bg-background/80 text-lg text-muted-foreground transition-transform duration-300 group-open:rotate-180">
+              ▾
+            </span>
+          </summary>
+          <div className="mt-5 overflow-hidden rounded-[1.6rem] border border-border/70 bg-background">
+            <div className="aspect-[4/3] w-full md:aspect-[16/9]">
+              <iframe
+                title="Google Maps - Torre CN"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2887.2690643595633!2d-79.38963172384474!3d43.64257005311824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882b34d68bf33a9b%3A0x15edd8c4de1c7581!2sTorre%20CN!5e0!3m2!1ses-419!2smx!4v1775340491513!5m2!1ses-419!2smx"
+                className="h-full w-full border-0"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
+        </details>
+
+        <details className="group rounded-[2rem] border border-border/60 bg-card/80 p-5 shadow-[0_18px_55px_-28px_rgba(2,6,23,0.35)] dark:bg-card/70 md:p-6">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left">
+            <div className="space-y-1">
+              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--accent)]">🍎 maps</p>
+              <h3 className="font-serif text-2xl leading-none tracking-tight text-card-foreground">Apple Maps</h3>
+            </div>
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/70 bg-background/80 text-lg text-muted-foreground transition-transform duration-300 group-open:rotate-180">
+              ▾
+            </span>
+          </summary>
+          <div className="mt-5 overflow-hidden rounded-[1.6rem] border border-border/70 bg-background">
+            <div className="aspect-[4/3] w-full md:aspect-[16/9]">
+              <iframe
+                title="Apple Maps - Torre CN"
+                src="https://maps.apple.com/p/A5DNzKPa8Hbo19"
+                className="h-full w-full border-0"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          </div>
+        </details>
       </section>
     </ScrollReveal>
   )
@@ -130,16 +186,16 @@ export function AboutPageContent({ locale }: AboutPageContentProps) {
       <AboutIntroSection title={copy.title} description={copy.description} />
       <AboutFeaturePanel description={copy.panelDescription} points={copy.points} />
 
-      <ScrollReveal direction="up" once className="mt-8">
+      <ScrollReveal direction="up" className="mt-8">
         <section className="relative isolate overflow-hidden px-2 py-10 text-card-foreground sm:px-4 md:px-6 md:py-14">
           <div className="relative space-y-6">
-            <ScrollReveal direction="up" once>
+            <ScrollReveal direction="up">
               <h2 className="text-center font-serif text-4xl leading-[0.96] tracking-tight text-card-foreground sm:text-5xl md:text-6xl">
                 {whyMattersCopy[locale].title}
               </h2>
             </ScrollReveal>
 
-            <ScrollReveal direction="up" once delay={0.12}>
+            <ScrollReveal direction="up" delay={0.12}>
               <ol className="mx-auto max-w-3xl space-y-4 text-base text-card-foreground">
                 {whyMattersCopy[locale].items.map((item, index) => (
                   <li key={item} className="text-lg text-muted-foreground">
@@ -149,7 +205,7 @@ export function AboutPageContent({ locale }: AboutPageContentProps) {
               </ol>
             </ScrollReveal>
 
-            <ScrollReveal direction="up" once delay={0.24}>
+            <ScrollReveal direction="up" delay={0.24}>
               <div className="mx-auto max-w-3xl rounded-[2rem] border border-border/60 bg-card/80 p-5 text-sm leading-8 text-muted-foreground shadow-[0_18px_55px_-28px_rgba(2,6,23,0.35)] dark:bg-card/70 md:p-6 md:text-base">
                 {whyMattersCopy[locale].quote}
               </div>
@@ -157,6 +213,8 @@ export function AboutPageContent({ locale }: AboutPageContentProps) {
           </div>
         </section>
       </ScrollReveal>
+
+      <AboutMapsSection />
     </main>
   )
 }

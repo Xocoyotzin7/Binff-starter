@@ -28,7 +28,7 @@ export default async function BlogPage() {
     <main id="blog-scope" className="mx-auto w-full max-w-6xl px-4 pb-8 pt-28 sm:px-6 lg:pt-32">
       <HeadingTypewriter scopeSelector="#blog-scope" />
 
-      <ScrollReveal direction="up" once>
+      <ScrollReveal direction="up">
         <BlogArticle title={doc.title} excerpt={doc.excerpt} html={renderMdxToHtml(doc.content)} />
       </ScrollReveal>
 

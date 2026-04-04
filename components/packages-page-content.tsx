@@ -49,7 +49,7 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
     <main id="packages-scope" className="mx-auto w-full max-w-6xl px-4 pb-12 pt-32 sm:px-6 lg:pt-36">
       <HeadingTypewriter scopeSelector="#packages-scope" />
 
-      <ScrollReveal direction="up" once className="mt-2">
+      <ScrollReveal direction="up" className="mt-2">
         <section className="grid gap-4 rounded-[2rem] border border-border/60 bg-card/80 p-5 text-card-foreground dark:bg-card/70 md:grid-cols-[1.05fr_0.95fr] md:p-6">
           <div className="space-y-4">
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--accent)]">

@@ -34,7 +34,7 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
     <main id="services-scope" className="mx-auto w-full max-w-6xl px-4 pb-8 pt-28 sm:px-6 lg:pt-32">
       <HeadingTypewriter scopeSelector="#services-scope" />
 
-      <ScrollReveal direction="up" once>
+      <ScrollReveal direction="up">
         <MdxArticle title={doc.title} excerpt={doc.excerpt} html={renderMdxToHtml(doc.content, { centerParagraphs: true })} />
       </ScrollReveal>
 
@@ -43,7 +43,7 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
       </div>
 
       <section className="mt-10 grid gap-5 rounded-[2rem] border border-border/60 bg-card/80 p-5 text-card-foreground dark:bg-card/70 md:grid-cols-[1.05fr_0.95fr] md:p-6">
-        <ScrollReveal direction="up" once className="space-y-4 md:flex md:h-full md:flex-col md:justify-center">
+        <ScrollReveal direction="up" className="space-y-4 md:flex md:h-full md:flex-col md:justify-center">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--accent)]">
             {locale === "es" ? "Más contexto" : locale === "fr" ? "Plus de contexte" : "More context"}
           </p>
@@ -78,7 +78,7 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
           </div>
         </ScrollReveal>
 
-        <ScrollReveal direction="up" delay={0.16} once className="space-y-3">
+        <ScrollReveal direction="up" delay={0.16} className="space-y-3">
           <div className="grid gap-3 md:hidden">
             {mobileContextCards.map((card, index) => {
               const cardIndex = index + 1
@@ -86,7 +86,7 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
               const direction = isEven ? "up" : "down"
               const delay = 0.18 + index * 0.14
               return (
-                <ScrollReveal key={card.title} direction={direction} delay={delay} once>
+                <ScrollReveal key={card.title} direction={direction} delay={delay}>
                   <article
                     className="rounded-[2rem] border border-border/70 bg-card/75 p-3 shadow-[0_10px_35px_-24px_rgba(2,6,23,0.55)] transition"
                   >
@@ -122,7 +122,7 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
               const direction = isEven ? "up" : "down"
               const delay = 0.18 + index * 0.14
               return (
-                <ScrollReveal key={card.title} direction={direction} delay={delay} once>
+                <ScrollReveal key={card.title} direction={direction} delay={delay}>
                   <article
                     className={`rounded-[2rem] border border-border/70 bg-card/75 p-3 shadow-[0_10px_35px_-24px_rgba(2,6,23,0.55)] transition ${
                       index % 2 === 1 ? "md:translate-y-2" : ""

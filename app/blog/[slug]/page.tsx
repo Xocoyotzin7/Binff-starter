@@ -32,7 +32,7 @@ export default function BlogPostPage({ params }: PageProps) {
       <HeadingTypewriter scopeSelector="#blog-post-scope" />
 
       <section className="space-y-8">
-        <ScrollReveal direction="up" once>
+        <ScrollReveal direction="up">
           <BlogArticle title={post.title} excerpt={post.excerpt} html={html} />
         </ScrollReveal>
 

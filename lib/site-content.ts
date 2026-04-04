@@ -204,7 +204,7 @@ const blogCardsByLocale: Record<Locale, BlogTeaser[]> = {
       tag: "SEO",
     },
     {
-      slug: "what-to-publish-on-a-new-service-website",
+      slug: "social-content-that-converts",
       title: "What to publish on a new service website",
       excerpt: "A practical checklist for homepage copy, service pages, and contact CTAs when the site is still being built.",
       tag: "Content",
@@ -224,25 +224,25 @@ const blogCardsByLocale: Record<Locale, BlogTeaser[]> = {
   ],
   fr: [
     {
-      slug: "seo-de-base-pour-les-sites-bilingues",
+      slug: "seo-for-bilingual-websites",
       title: "SEO de base pour les sites bilingues",
       excerpt: "Un guide court sur la structure, les pages par langue et les liens internes pour mieux se positionner dans plusieurs langues.",
       tag: "SEO",
     },
     {
-      slug: "que-publier-sur-un-nouveau-site-de-services",
+      slug: "social-content-that-converts",
       title: "Que publier sur un nouveau site de services",
       excerpt: "Une checklist pratique pour la page d’accueil, les pages services et les CTA de contact pendant la construction du site.",
       tag: "Contenu",
     },
     {
-      slug: "utiliser-lia-sans-perdre-la-voix-de-marque",
+      slug: "marketing-with-ai-without-losing-brand-voice",
       title: "Utiliser l’IA sans perdre la voix de marque",
       excerpt: "L’IA peut aider à rédiger et organiser le contenu, mais des règles d’édition claires gardent un ton constant.",
       tag: "IA",
     },
     {
-      slug: "visibilite-locale-au-mexique-et-au-canada",
+      slug: "local-seo-for-mexico-and-canada",
       title: "Visibilité locale au Mexique et au Canada",
       excerpt: "Cartes, pages services et contenu bilingue peuvent fonctionner ensemble quand le site est pensé pour le local.",
       tag: "Local",
@@ -250,25 +250,25 @@ const blogCardsByLocale: Record<Locale, BlogTeaser[]> = {
   ],
   es: [
     {
-      slug: "seo-basico-para-sitios-bilingues",
+      slug: "seo-for-bilingual-websites",
       title: "SEO básico para sitios bilingües",
       excerpt: "Una guía breve sobre estructura, páginas por idioma y enlaces internos para posicionar en más de un idioma.",
       tag: "SEO",
     },
     {
-      slug: "que-publicar-en-un-nuevo-sitio-de-servicios",
+      slug: "social-content-that-converts",
       title: "Qué publicar en un nuevo sitio de servicios",
       excerpt: "Una lista práctica para el home, las páginas de servicio y los CTAs de contacto mientras el sitio todavía se construye.",
       tag: "Contenido",
     },
     {
-      slug: "usar-ai-sin-perder-la-voz-de-marca",
+      slug: "marketing-with-ai-without-losing-brand-voice",
       title: "Usar AI sin perder la voz de marca",
       excerpt: "AI puede ayudar a redactar y ordenar contenido, pero unas reglas claras de edición mantienen el tono consistente.",
       tag: "AI",
     },
     {
-      slug: "visibilidad-local-en-mexico-y-canada",
+      slug: "local-seo-for-mexico-and-canada",
       title: "Visibilidad local en México y Canadá",
       excerpt: "Mapas, páginas de servicio y contenido bilingüe pueden funcionar juntos cuando el sitio se piensa para lo local.",
       tag: "Local",

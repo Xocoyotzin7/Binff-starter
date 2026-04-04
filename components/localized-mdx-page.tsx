@@ -19,7 +19,7 @@ export function LocalizedMdxPage({ route, locale }: LocalizedMdxPageProps) {
   return (
     <main id={scopeId} className="mx-auto w-full max-w-6xl px-4 pb-8 pt-28 sm:px-6 lg:pt-32">
       <HeadingTypewriter scopeSelector={`#${scopeId}`} />
-      <ScrollReveal direction="up" once>
+      <ScrollReveal direction="up">
         <MdxArticle title={doc.title} excerpt={doc.excerpt} html={renderMdxToHtml(doc.content)} />
       </ScrollReveal>
     </main>

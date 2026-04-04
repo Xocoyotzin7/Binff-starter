@@ -366,7 +366,7 @@ export async function PortfolioPageContent({ locale }: PortfolioPageContentProps
         <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">{copy.description}</p>
       </div>
 
-      <ScrollReveal direction="up" once className="mt-8">
+      <ScrollReveal direction="up" className="mt-8">
         <section className="rounded-[2rem] border border-border/60 bg-card/80 p-4 dark:bg-card/70 md:p-6">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/75 px-3 py-1 text-xs font-semibold text-[color:var(--accent)]">
             <CalendarClock className="h-3.5 w-3.5" />
