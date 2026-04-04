@@ -530,7 +530,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
             { label: "Páginas", value: "1 (Landing Page)." },
             { label: "Revisiones", value: "No." },
             { label: "SEO", value: "No SEO." },
-            { label: "Revisiones", value: "2 rounds." },
+            { label: "Revisiones", value: "2 rondas." },
           ],
           includes: ["Máximo 5 imágenes", "2 POC/CTA"],
           excludes: ["SEO avanzado", "Estructura multi-página"],
