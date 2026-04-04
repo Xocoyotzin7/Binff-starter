@@ -1,7 +1,8 @@
 import Link from "next/link"
-import { Github, Mail, Send, Smartphone, Phone } from "lucide-react"
+import { Github, Mail, Send, Phone } from "lucide-react"
 
 import { getSiteCopy, type Locale } from "@/lib/site-content"
+import { MinimalWhatsappIcon } from "@/components/icons/minimal-whatsapp-icon"
 
 type SiteFooterProps = {
   locale: Locale
@@ -24,7 +25,7 @@ export function SiteFooter({ locale }: SiteFooterProps) {
     {
       href: whatsappHref,
       label: "WhatsApp",
-      icon: Smartphone,
+      icon: MinimalWhatsappIcon,
       external: true,
     },
     {

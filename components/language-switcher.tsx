@@ -14,6 +14,12 @@ const LABELS: Record<Locale, string> = {
   es: "ES",
 }
 
+const FLAGS: Record<Locale, string> = {
+  en: "🇺🇸",
+  fr: "🇫🇷",
+  es: "🇲🇽",
+}
+
 type LanguageSwitcherProps = {
   locale: Locale
 }
@@ -49,6 +55,9 @@ export function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
             onClick={() => setLocale(item)}
           >
             {LABELS[item]}
+            <span className="ml-auto text-sm leading-none" aria-hidden="true">
+              {FLAGS[item]}
+            </span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

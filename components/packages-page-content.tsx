@@ -1,6 +1,7 @@
-import { ArrowUpRight, CheckCircle2, Mail, MessageCircleMore, XCircle } from "lucide-react"
+import { ArrowUpRight, CheckCircle2, Mail, XCircle } from "lucide-react"
 
 import { HeadingTypewriter } from "@/components/heading-typewriter"
+import { MinimalWhatsappIcon } from "@/components/icons/minimal-whatsapp-icon"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { Button } from "@/components/ui/button"
 import { getSiteCopy, type Locale } from "@/lib/site-content"
@@ -25,6 +26,7 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
   const copy = getSiteCopy(locale)
   const mainEmail = copy.contact.emails[0]
   const whatsappHref = `https://wa.me/${copy.contact.whatsapp.replace(/[^+\d]/g, "").replace(/^\+/, "")}`
+  const visiblePackages = copy.packages.cards.slice(0, 2)
 
   const contactActions = (
     <div className="flex flex-wrap gap-2 pt-1">
@@ -36,7 +38,7 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
       </Button>
       <Button asChild size="sm" className="rounded-full">
         <a href={whatsappHref} target="_blank" rel="noreferrer">
-          <MessageCircleMore className="h-4 w-4" />
+          <MinimalWhatsappIcon className="h-4 w-4" />
           WhatsApp
         </a>
       </Button>
@@ -89,21 +91,19 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
         </section>
       </ScrollReveal>
 
-      <section className="mt-10 grid gap-4 md:grid-cols-3">
-        {copy.packages.cards.map((card, index) => {
-          const isQuoteCard = index === copy.packages.cards.length - 1
-          return (
-            <ScrollReveal key={card.title} direction={index % 2 === 0 ? "up" : "down"} delay={0.08 + index * 0.08}>
-              <article
-                className={`rounded-[2rem] border border-border/70 bg-card/75 p-3 shadow-[0_10px_35px_-24px_rgba(2,6,23,0.55)] transition ${
-                  index === 1 ? "md:translate-y-4" : ""
-                } ${isQuoteCard ? "md:translate-y-2" : ""}`}
+      <section className="mt-10 grid gap-4 md:grid-cols-2">
+        {visiblePackages.map((card, index) => (
+          <ScrollReveal key={card.title} direction={index % 2 === 0 ? "up" : "down"} delay={0.08 + index * 0.08}>
+            <article
+              className={`rounded-[2rem] border border-border/70 bg-card/75 p-3 shadow-[0_10px_35px_-24px_rgba(2,6,23,0.55)] transition ${
+                index === 1 ? "md:translate-y-4" : ""
+              }`}
+            >
+              <div
+                className={`relative h-full overflow-hidden rounded-[1.4rem] border border-border/70 bg-gradient-to-br p-5 ${
+                  packageSurfaces[index % packageSurfaces.length]
+                }`}
               >
-                <div
-                  className={`relative h-full overflow-hidden rounded-[1.4rem] border border-border/70 bg-gradient-to-br p-5 ${
-                    isQuoteCard ? "from-background via-background to-accent/10" : packageSurfaces[index % packageSurfaces.length]
-                  }`}
-                >
                   <div className="absolute -right-8 -top-8 h-20 w-20 rounded-full bg-accent/20 blur-xl" />
                   <div className="absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-primary/20 blur-xl" />
                   <div className="relative space-y-4">
@@ -161,8 +161,7 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
                 </div>
               </article>
             </ScrollReveal>
-          )
-        })}
+        ))}
       </section>
 
       <ScrollReveal direction="up" className="mt-8">
@@ -196,7 +195,7 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
               </Button>
               <Button asChild className="rounded-full">
                 <a href={whatsappHref} target="_blank" rel="noreferrer">
-                  <MessageCircleMore className="h-4 w-4" />
+                  <MinimalWhatsappIcon className="h-4 w-4" />
                   WhatsApp
                   <ArrowUpRight className="h-4 w-4" />
                 </a>
