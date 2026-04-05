@@ -193,8 +193,8 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
                 {locale === "es"
                   ? "Podemos modernizar tu sitio web a una nueva tecnología o volverlo más intuitivo. Escríbenos por email o WhatsApp y te pasamos más información con el scope adecuado."
                   : locale === "fr"
-                    ? "Écrivez-nous par email ou WhatsApp et nous vous enverrons plus d’informations avec le bon scope."
-                    : "Write to us by email or WhatsApp and we will send more details with the right scope."}
+                    ? "Nous pouvons moderniser votre site web avec une technologie plus récente ou le rendre plus intuitif. Écrivez-nous par email ou WhatsApp et nous vous enverrons plus d’informations avec le bon scope."
+                    : "We can modernize your website with newer technology or make it more intuitive. Write to us by email or WhatsApp and we will send more details with the right scope."}
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
