@@ -1,17 +1,45 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
+import type { Metadata } from "next"
 
 import { Button } from "@/components/ui/button"
+import { Seo } from "@/components/seo/Seo"
+import { buildBreadcrumbList, buildPageMetadata, seoConfig } from "@/lib/seo"
 import { getLocaleFromCookies } from "@/lib/locale"
 import { getSiteCopy } from "@/lib/site-content"
+
+export function generateMetadata(): Metadata {
+  return buildPageMetadata(seoConfig, {
+    title: seoConfig.brand.brandName,
+    description: seoConfig.brand.brandDescription,
+    canonicalPath: "/",
+    openGraph: {
+      type: "website",
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: seoConfig.brand.brandName,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      images: ["/opengraph-image"],
+    },
+  })
+}
 
 export default async function Home() {
   const locale = await getLocaleFromCookies()
   const copy = getSiteCopy(locale)
+  const entities = buildBreadcrumbList([{ name: "Inicio", path: "/" }], seoConfig)
 
   return (
     <main className="relative min-h-screen overflow-hidden">
+      <Seo entities={entities} />
       <section className="relative isolate flex min-h-screen items-center justify-center px-4 pt-28 sm:px-6 lg:pt-32">
         <div className="absolute inset-0">
           <Image
@@ -57,3 +85,4 @@ export default async function Home() {
     </main>
   )
 }
+
