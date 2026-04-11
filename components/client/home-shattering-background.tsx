@@ -593,7 +593,7 @@ export function HomeShatteringBackground({ src }: HomeShatteringBackgroundProps)
       textures.forEach((texture) => texture.dispose())
       renderer.dispose()
     }
-  }, [reducedMotion, slides])
+  }, [reducedMotion, src])
 
   return (
     <div className="absolute inset-0">
