@@ -1,9 +1,9 @@
-import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 import type { Metadata } from "next"
 
 import { Button } from "@/components/ui/button"
+import { HomeShatteringBackground } from "@/components/client/home-shattering-background"
 import { Seo } from "@/components/seo/Seo"
 import { buildBreadcrumbList, buildPageMetadata, seoConfig } from "@/lib/seo"
 import { getLocaleFromCookies } from "@/lib/locale"
@@ -46,14 +46,8 @@ export default async function Home() {
       <Seo entities={entities} />
       <section className="relative isolate flex min-h-screen items-center justify-center px-4 pt-28 sm:px-6 lg:pt-32">
         <div className="absolute inset-0">
-          <Image
-            src="/serene-nature-sharp.jpg"
-            alt="Background"
-            fill
-            priority
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/30 to-background" />
+          <HomeShatteringBackground src="/serene-nature-sharp.jpg" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/18 via-black/10 to-background/45" />
         </div>
 
         <div className="relative z-10 flex w-full max-w-5xl flex-col items-center text-center">
@@ -78,7 +72,12 @@ export default async function Home() {
           </p>
 
           <Button asChild className="group relative mt-10 overflow-hidden rounded-full border border-white/20 bg-white/10 px-8 py-4 font-medium text-white shadow-2xl backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:border-white/30 hover:bg-white/20">
-            <Link href="/services">
+            <Link
+              href="/services"
+              data-analytics-event="cta_click"
+              data-analytics-surface="home.hero.services"
+              data-analytics-label={copy.nav.projectCta}
+            >
               <span className="relative z-10">{copy.nav.projectCta}</span>
               <ArrowUpRight className="relative z-10 h-4 w-4" />
               <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />

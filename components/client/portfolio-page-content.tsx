@@ -20,6 +20,7 @@ import {
 
 import { HeadingTypewriter } from "@/components/core/heading-typewriter"
 import { ScrollReveal } from "@/components/core/scroll-reveal"
+import { PortfolioTransitionDeck, type CapabilityIconName } from "@/components/client/portfolio-transition-deck"
 import { getFeaturedGitHubProjects, summarizeGitHubProjects, type GitHubRepository } from "@/lib/github-projects"
 import { type Locale } from "@/content/client/site-content"
 
@@ -288,6 +289,19 @@ const localeMap: Record<Locale, string> = {
   es: "es",
 }
 
+const capabilityIconMap: Record<CapabilityIconName, typeof Search> = {
+  search: Search,
+  mapPinned: MapPinned,
+  heart: Heart,
+  calendarDays: CalendarDays,
+  refreshCw: RefreshCw,
+  shoppingBag: ShoppingBag,
+  messageSquareText: MessageSquareText,
+  shieldCheck: ShieldCheck,
+  workflow: Workflow,
+  lockKeyhole: LockKeyhole,
+}
+
 function formatRelativeTime(dateString: string, locale: Locale) {
   const date = new Date(dateString)
   const diffSeconds = Math.max(1, Math.floor((Date.now() - date.getTime()) / 1000))
@@ -342,7 +356,7 @@ function ProjectShowcaseCard({
   capabilities,
   role,
   cta,
-  capabilityIcons,
+  capabilityIconNames,
 }: {
   title: string
   badge: string
@@ -352,7 +366,7 @@ function ProjectShowcaseCard({
   capabilities?: ReadonlyArray<string>
   role?: string
   cta?: string
-  capabilityIcons?: ReadonlyArray<typeof LockKeyhole>
+  capabilityIconNames?: ReadonlyArray<CapabilityIconName>
 }) {
   return (
     <details open className="group rounded-[2rem] border border-border/60 bg-card/80 p-5 text-card-foreground shadow-[0_20px_60px_rgba(15,23,42,0.1)] dark:bg-card/70">
@@ -388,9 +402,10 @@ function ProjectShowcaseCard({
         {capabilities?.length ? (
           <ul className="space-y-2 pt-1 text-sm text-muted-foreground">
             {capabilities.map((item, itemIndex) => {
-              const Icon = capabilityIcons?.length
-                ? capabilityIcons[itemIndex % capabilityIcons.length]
-                : LockKeyhole
+              const IconName = capabilityIconNames?.length
+                ? capabilityIconNames[itemIndex % capabilityIconNames.length]
+                : "lockKeyhole"
+              const Icon = capabilityIconMap[IconName]
 
               return (
                 <li key={item} className="flex gap-2">
@@ -562,6 +577,44 @@ export async function PortfolioPageContent({ locale }: PortfolioPageContentProps
   const showcase = showcaseDetails[locale]
   const projects = sortFeaturedRepos(await getFeaturedGitHubProjects(30))
   const stats = summarizeGitHubProjects(projects)
+  const showcaseCards = [
+    {
+      badge: copy.projectInProgress,
+      title: showcase.xoco.title,
+      summary: showcase.xoco.summary,
+      body: showcase.xoco.body,
+      links: showcase.xoco.links,
+    },
+    {
+      badge: copy.commerceDemoTag,
+      title: showcase.banffCommerce.title,
+      summary: showcase.banffCommerce.summary,
+      body: showcase.banffCommerce.body,
+      links: showcase.banffCommerce.links,
+      capabilities: showcase.banffCommerce.capabilities,
+      role: showcase.banffCommerce.role,
+      cta: showcase.banffCommerce.cta,
+      capabilityIconNames: ["search", "mapPinned", "heart", "calendarDays", "shoppingBag"],
+    },
+    {
+      badge: showcase.criptec.badge,
+      title: showcase.criptec.title,
+      summary: showcase.criptec.summary,
+      body: showcase.criptec.body,
+      links: showcase.criptec.links,
+      capabilities: showcase.criptec.capabilities,
+      role: showcase.criptec.role,
+      cta: showcase.criptec.cta,
+      capabilityIconNames: ["messageSquareText", "shieldCheck", "refreshCw", "workflow", "lockKeyhole"],
+    },
+    {
+      badge: copy.conceptProject,
+      title: showcase.strawberry.title,
+      summary: showcase.strawberry.summary,
+      body: showcase.strawberry.body,
+      links: showcase.strawberry.links,
+    },
+  ] as const
 
   return (
     <main id="portfolio-scope" className="mx-auto w-full max-w-6xl px-4 pb-10 pt-28 sm:px-6 lg:pt-32">
@@ -602,44 +655,7 @@ export async function PortfolioPageContent({ locale }: PortfolioPageContentProps
         </section>
       </ScrollReveal>
 
-      <div className="mt-8 grid gap-4">
-        <ProjectShowcaseCard
-          badge={copy.projectInProgress}
-          title={showcase.xoco.title}
-          summary={showcase.xoco.summary}
-          body={showcase.xoco.body}
-          links={showcase.xoco.links}
-        />
-        <ProjectShowcaseCard
-          badge={copy.commerceDemoTag}
-          title={showcase.banffCommerce.title}
-          summary={showcase.banffCommerce.summary}
-          body={showcase.banffCommerce.body}
-          links={showcase.banffCommerce.links}
-          capabilities={showcase.banffCommerce.capabilities}
-          role={showcase.banffCommerce.role}
-          cta={showcase.banffCommerce.cta}
-          capabilityIcons={[Search, MapPinned, Heart, CalendarDays, ShoppingBag]}
-        />
-        <ProjectShowcaseCard
-          badge={showcase.criptec.badge}
-          title={showcase.criptec.title}
-          summary={showcase.criptec.summary}
-          body={showcase.criptec.body}
-          links={showcase.criptec.links}
-          capabilities={showcase.criptec.capabilities}
-          role={showcase.criptec.role}
-          cta={showcase.criptec.cta}
-          capabilityIcons={[MessageSquareText, ShieldCheck, RefreshCw, Workflow, LockKeyhole]}
-        />
-        <ProjectShowcaseCard
-          badge={copy.conceptProject}
-          title={showcase.strawberry.title}
-          summary={showcase.strawberry.summary}
-          body={showcase.strawberry.body}
-          links={showcase.strawberry.links}
-        />
-      </div>
+      <PortfolioTransitionDeck cards={showcaseCards} />
 
       <div className="mt-12 mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div className="max-w-3xl space-y-2">

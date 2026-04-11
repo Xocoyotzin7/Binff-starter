@@ -35,12 +35,15 @@ type TrackerSnapshot = {
   utmSource: string | null
   utmMedium: string | null
   utmCampaign: string | null
-  eventType: AnalyticsEventType
 }
 
 type AnalyticsPayload = Omit<TrackerSnapshot, "startedAt" | "maxScrollDepth"> & {
   timeOnPage: number
   scrollDepth: number
+  eventType: AnalyticsEventType
+  surfaceKey: string | null
+  interactionLabel: string | null
+  interactionValue: number | null
 }
 
 function getSessionId() {
@@ -93,13 +96,21 @@ function sendPayload(payload: AnalyticsPayload) {
   })
 }
 
+function readInteractionValue(value: string | null) {
+  if (!value) return null
+  const parsed = Number(value)
+  return Number.isFinite(parsed) ? parsed : null
+}
+
 export function PassiveAnalyticsTracker() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const snapshotRef = useRef<TrackerSnapshot | null>(null)
+  const currentPathname = pathname ?? "/"
+  const searchString = searchParams?.toString() ?? ""
 
   useEffect(() => {
-    if (pathname.startsWith("/api") || pathname.startsWith("/_next")) {
+    if (currentPathname.startsWith("/api") || currentPathname.startsWith("/_next")) {
       return
     }
 
@@ -129,20 +140,56 @@ export function PassiveAnalyticsTracker() {
         utmSource: current.utmSource,
         utmMedium: current.utmMedium,
         utmCampaign: current.utmCampaign,
-        eventType: current.eventType,
+        eventType: "page_view",
+        surfaceKey: current.canonicalPath,
+        interactionLabel: null,
+        interactionValue: null,
       })
       snapshotRef.current = null
     }
 
-    const canonicalPath = resolveCanonicalPath(pathname)
-    const routeLocale = resolveLocaleFromPathname(pathname)
+    const sendInteraction = (target: HTMLElement) => {
+      const eventType = target.dataset.analyticsEvent as AnalyticsEventType | undefined
+      if (!eventType) return
+
+      const current = snapshotRef.current
+      if (!current || !current.pagePath) return
+
+      sendPayload({
+        pagePath: current.pagePath,
+        canonicalPath: current.canonicalPath,
+        pageTitle: current.pageTitle,
+        pageType: current.pageType,
+        locale: current.locale,
+        visitorId: current.visitorId,
+        sessionId: current.sessionId,
+        timeOnPage: Math.max(0, Math.round((performance.now() - current.startedAt) / 1000)),
+        scrollDepth: current.maxScrollDepth,
+        referrerUrl: current.referrerUrl,
+        userAgent: current.userAgent,
+        screenWidth: current.screenWidth,
+        screenHeight: current.screenHeight,
+        viewportWidth: current.viewportWidth,
+        viewportHeight: current.viewportHeight,
+        utmSource: current.utmSource,
+        utmMedium: current.utmMedium,
+        utmCampaign: current.utmCampaign,
+        eventType,
+        surfaceKey: target.dataset.analyticsSurface || null,
+        interactionLabel: target.dataset.analyticsLabel || target.textContent?.trim() || null,
+        interactionValue: readInteractionValue(target.dataset.analyticsValue ?? null),
+      })
+    }
+
+    const canonicalPath = resolveCanonicalPath(currentPathname)
+    const routeLocale = resolveLocaleFromPathname(currentPathname)
     const currentUrl = new URL(window.location.href)
     const utm = resolveUtmParams(currentUrl)
-    const pageType = resolveAnalyticsPageType(pathname)
+    const pageType = resolveAnalyticsPageType(currentPathname)
     const userAgent = navigator.userAgent || null
 
     snapshotRef.current = {
-      pagePath: `${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`,
+      pagePath: `${currentPathname}${searchString ? `?${searchString}` : ""}`,
       canonicalPath,
       pageTitle: document.title,
       pageType,
@@ -160,7 +207,6 @@ export function PassiveAnalyticsTracker() {
       utmSource: utm.utmSource,
       utmMedium: utm.utmMedium,
       utmCampaign: utm.utmCampaign,
-      eventType: "page_view",
     }
 
     const onScroll = () => {
@@ -176,17 +222,27 @@ export function PassiveAnalyticsTracker() {
       }
     }
 
+    const onClick = (event: MouseEvent) => {
+      const target = event.target
+      if (!(target instanceof Element)) return
+      const analyticsTarget = target.closest<HTMLElement>("[data-analytics-event]")
+      if (!analyticsTarget || analyticsTarget.dataset.analyticsDisabled === "true") return
+      sendInteraction(analyticsTarget)
+    }
+
     window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("click", onClick, true)
     window.addEventListener("pagehide", onPageHide)
     document.addEventListener("visibilitychange", onVisibilityChange)
 
     return () => {
       window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("click", onClick, true)
       window.removeEventListener("pagehide", onPageHide)
       document.removeEventListener("visibilitychange", onVisibilityChange)
       flush()
     }
-  }, [pathname, searchParams])
+  }, [currentPathname, searchString, searchParams])
 
   return null
 }

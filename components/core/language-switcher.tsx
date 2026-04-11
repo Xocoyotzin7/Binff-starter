@@ -29,10 +29,11 @@ type LanguageSwitcherProps = {
 // It persists the preference in a cookie and only updates navigation state; no third-party service is involved.
 export function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
   const pathname = usePathname()
+  const currentPathname = pathname ?? "/"
 
   const setLocale = (nextLocale: Locale) => {
     document.cookie = `NEXT_LOCALE=${nextLocale}; path=/; max-age=31536000; samesite=lax`
-    window.location.assign(resolveLocalePath(pathname, nextLocale))
+    window.location.assign(resolveLocalePath(currentPathname, nextLocale))
   }
 
   return (

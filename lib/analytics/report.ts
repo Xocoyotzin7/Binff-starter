@@ -235,6 +235,7 @@ export function buildMonthlyAnalyticsReport(events: readonly AnalyticsEvent[], m
   const resolvedMonthKey = monthKeyOrCurrent(monthKey)
   const monthlyEvents = events.filter((event) => event.createdAt.startsWith(`${resolvedMonthKey}-`))
   const viewEvents = monthlyEvents.filter((event) => event.eventType === "page_view")
+  const interactionEvents = monthlyEvents.filter((event) => event.eventType !== "page_view")
   const sessions = summarizeSessions(monthlyEvents)
   const uniqueVisitors = new Set(viewEvents.map((event) => event.visitorId))
   const dailySeries = dailySeriesForMonth(viewEvents, resolvedMonthKey)
@@ -242,6 +243,16 @@ export function buildMonthlyAnalyticsReport(events: readonly AnalyticsEvent[], m
   const totalViews = viewEvents.length
   const totalSessions = new Set(viewEvents.map((event) => event.sessionId)).size
   const ctaClicks = monthlyEvents.filter((event) => event.eventType === "cta_click").length
+  const bookingStarts = monthlyEvents.filter((event) => event.eventType === "booking_start").length
+  const bookingConfirmed = monthlyEvents.filter((event) => event.eventType === "booking_confirmed").length
+  const purchaseStarts = monthlyEvents.filter((event) => event.eventType === "purchase_start").length
+  const purchaseConfirmed = monthlyEvents.filter((event) => event.eventType === "purchase_confirmed").length
+  const eventTypeBreakdown = buildBreakdown(monthlyEvents, (event) => event.eventType, monthlyEvents.length)
+  const surfaceBreakdown = buildBreakdown(
+    monthlyEvents,
+    (event) => event.surfaceKey || event.canonicalPath,
+    monthlyEvents.length,
+  ).slice(0, 8)
   const engagedSessions = sessions.filter((session) => session.engaged).length
   const bouncedSessions = sessions.filter((session) => session.bounced).length
   const totalTime = viewEvents.reduce((sum, event) => sum + event.timeOnPage, 0)
@@ -251,6 +262,11 @@ export function buildMonthlyAnalyticsReport(events: readonly AnalyticsEvent[], m
     sessions: totalSessions,
     visitors: uniqueVisitors.size,
     ctaClicks,
+    bookingStarts,
+    bookingConfirmed,
+    purchaseStarts,
+    purchaseConfirmed,
+    interactions: interactionEvents.length,
     avgTimeOnPage: totalViews ? roundTo(totalTime / totalViews) : 0,
     avgScrollDepth: totalViews ? roundTo(totalScroll / totalViews) : 0,
     engagementRate: totalSessions ? roundTo((engagedSessions / totalSessions) * 100) : 0,
@@ -299,6 +315,8 @@ export function buildMonthlyAnalyticsReport(events: readonly AnalyticsEvent[], m
     dailySeries,
     topPages,
     topReferrers,
+    eventTypeBreakdown,
+    surfaceBreakdown,
     localeBreakdown,
     deviceBreakdown,
     pageTypeBreakdown,
@@ -347,6 +365,7 @@ export function buildMonthlyAnalyticsEmailHtml(report: MonthlyAnalyticsReport) {
     renderKpiCard("Vistas", formatNumber(report.totals.views), "Eventos de página y acciones"),
     renderKpiCard("Sesiones", formatNumber(report.totals.sessions)),
     renderKpiCard("Visitantes", formatNumber(report.totals.visitors)),
+    renderKpiCard("Interacciones", formatNumber(report.totals.interactions), "Clicks, reservas y compras"),
     renderKpiCard("Engagement", `${formatFixed(report.totals.engagementRate)}%`, "Sesiones con interacción real"),
     renderKpiCard("Tiempo medio", `${formatFixed(report.totals.avgTimeOnPage)}s`),
     renderKpiCard("Scroll medio", `${formatFixed(report.totals.avgScrollDepth)}%`),
@@ -463,6 +482,59 @@ export function buildMonthlyAnalyticsEmailHtml(report: MonthlyAnalyticsReport) {
             </table>
           </div>
 
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px;">
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:28px;padding:18px;">
+              <h2 style="margin:0 0 14px;font-size:20px;">Tipos de evento</h2>
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;">
+                <thead>
+                  <tr>
+                    <th style="text-align:left;padding:10px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#94a3b8;">Tipo</th>
+                    <th style="text-align:left;padding:10px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#94a3b8;">Eventos</th>
+                    <th style="text-align:left;padding:10px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#94a3b8;">Peso</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${report.eventTypeBreakdown
+                    .map(
+                      (row) => `
+                        <tr>
+                          <td style="padding:10px 12px;border-top:1px solid #e2e8f0;background:#fff;">${escapeHtml(row.label)}</td>
+                          <td style="padding:10px 12px;border-top:1px solid #e2e8f0;background:#fff;">${formatNumber(row.value)}</td>
+                          <td style="padding:10px 12px;border-top:1px solid #e2e8f0;background:#fff;">${formatFixed(row.percentage)}%</td>
+                        </tr>
+                      `,
+                    )
+                    .join("")}
+                </tbody>
+              </table>
+            </div>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:28px;padding:18px;">
+              <h2 style="margin:0 0 14px;font-size:20px;">Superficies principales</h2>
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;">
+                <thead>
+                  <tr>
+                    <th style="text-align:left;padding:10px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#94a3b8;">Superficie</th>
+                    <th style="text-align:left;padding:10px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#94a3b8;">Eventos</th>
+                    <th style="text-align:left;padding:10px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#94a3b8;">Peso</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${report.surfaceBreakdown
+                    .map(
+                      (row) => `
+                        <tr>
+                          <td style="padding:10px 12px;border-top:1px solid #e2e8f0;background:#fff;">${escapeHtml(row.label)}</td>
+                          <td style="padding:10px 12px;border-top:1px solid #e2e8f0;background:#fff;">${formatNumber(row.value)}</td>
+                          <td style="padding:10px 12px;border-top:1px solid #e2e8f0;background:#fff;">${formatFixed(row.percentage)}%</td>
+                        </tr>
+                      `,
+                    )
+                    .join("")}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
           <div style="display:grid;grid-template-columns:1fr;gap:18px;margin-top:18px;">
             <div style="background:#fff;border:1px solid #e2e8f0;border-radius:28px;padding:18px;">
               <h2 style="margin:0 0 14px;font-size:20px;">Vistas por día</h2>
@@ -561,9 +633,18 @@ export function buildMonthlyAnalyticsEmailText(report: MonthlyAnalyticsReport) {
     `Vistas: ${report.totals.views}`,
     `Sesiones: ${report.totals.sessions}`,
     `Visitantes: ${report.totals.visitors}`,
+    `Interacciones: ${report.totals.interactions}`,
+    `Reservas iniciadas: ${report.totals.bookingStarts}`,
+    `Ventas iniciadas: ${report.totals.purchaseStarts}`,
     `Engagement: ${formatFixed(report.totals.engagementRate)}%`,
     `Tiempo medio: ${formatFixed(report.totals.avgTimeOnPage)}s`,
     `Scroll medio: ${formatFixed(report.totals.avgScrollDepth)}%`,
+    "",
+    "Tipos de evento:",
+    ...report.eventTypeBreakdown.map((row) => `- ${row.label}: ${formatNumber(row.value)} (${formatFixed(row.percentage)}%)`),
+    "",
+    "Superficies principales:",
+    ...report.surfaceBreakdown.map((row) => `- ${row.label}: ${formatNumber(row.value)} (${formatFixed(row.percentage)}%)`),
     "",
     "Páginas principales:",
     ...report.topPages.map(

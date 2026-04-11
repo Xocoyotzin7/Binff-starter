@@ -424,4 +424,41 @@
       filter: blur(0);
     }
   }
+
+  .package-scale-rise {
+    animation: package-scale-rise var(--package-scale-duration, 8.5s) ease-in-out infinite;
+    animation-delay: var(--package-scale-delay, 0ms);
+  }
+
+  .package-scale-fall {
+    animation: package-scale-fall var(--package-scale-duration, 9s) ease-in-out infinite;
+    animation-delay: var(--package-scale-delay, 0ms);
+  }
+
+  @keyframes package-scale-rise {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -10px, 0);
+    }
+  }
+
+  @keyframes package-scale-fall {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, 10px, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .package-scale-rise,
+    .package-scale-fall {
+      animation: none !important;
+    }
+  }
 }

@@ -15,9 +15,20 @@ export type PackageCard = {
     label: string
     value: string
   }[]
+  modules?: PackageModule[]
   includes: string[]
   excludes: string[]
   note: string
+}
+
+export type PackageModule = {
+  badge: string
+  title: string
+  summary: string
+  bullets: string[]
+  cta: string
+  eventType: "booking_start" | "purchase_start" | "booking_purchase"
+  surfaceKey: string
 }
 
 export type ServiceCard = {
@@ -321,13 +332,13 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     packages: {
       eyebrow: "Website packages",
-      title: "Website packages, without prices for now.",
+      title: "Website packages",
       description:
-        "Starter and Growth cover the most common website scopes. We build custom sites, not simple AI-generated pages, with positioning designed for the web and for AI models. If your project needs something different we can quote it separately.",
+        "Starter, Growth, and Scale cover the most common website scopes. We build custom sites, not simple AI-generated pages, with positioning designed for the web and for AI models. Scale also splits into booking, ecommerce, and hybrid flows when a project needs more than a simple brochure site.",
       cards: [
         {
           badge: "Starter",
-          title: "Launch site",
+          title: "Starter site",
           summary: "A lean website for validating a new idea or creating a simple online presence.",
           facts: [
             { label: "Best for", value: "Validating a website idea." },
@@ -342,7 +353,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
         {
           badge: "Growth",
           title: "Growth site",
-          summary: "A fuller website for a real business that needs more pages, stronger structure, room to scale, and better visibility on the web and in AI models.",
+          summary: "A fuller website for a real business that needs more pages, stronger structure, room to grow, and better visibility on the web and in AI models.",
           facts: [
             { label: "Best for", value: "Growing a real business." },
             { label: "Pages", value: "5 to 10 subpages." },
@@ -354,18 +365,50 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           note: "Best when the site needs to support ongoing marketing, SEO, and visibility in AI models.",
         },
         {
-          badge: "Quote",
-          title: "Custom quote",
-          summary: "Need another type of website? We can scope it and price it separately.",
+          badge: "Scale",
+          title: "Scale site",
+          summary: "A larger website scope for products and teams that need custom structure, more moving parts, and room to expand.",
           facts: [
-            { label: "Best for", value: "Other website types." },
+            { label: "Best for", value: "Larger website scopes." },
             { label: "Pages", value: "Custom." },
             { label: "Revisions", value: "By request." },
             { label: "SEO", value: "Custom." },
           ],
+          modules: [
+            {
+              badge: "Booking",
+              title: "Book your clients",
+              summary:
+                "Clients book time at your office, clinic, or branch with a QR flow, email confirmation, and metrics for the busiest hours and days.",
+              bullets: ["QR booking", "Email confirmation", "Client and schedule metrics"],
+              cta: "I want to book clients",
+              eventType: "booking_start",
+              surfaceKey: "packages.scale.booking",
+            },
+            {
+              badge: "Commerce",
+              title: "Sell to your clients",
+              summary:
+                "Run your own online store with secure payments, organized customers, and passive analytics to see what products and pages convert best.",
+              bullets: ["Online store", "Secure payments", "Smart dashboards"],
+              cta: "I want to sell products",
+              eventType: "purchase_start",
+              surfaceKey: "packages.scale.purchase",
+            },
+            {
+              badge: "Hybrid",
+              title: "Book and sell",
+              summary:
+                "Combine appointments and product sales in one site so you can sell services, products, or both without duplicating operations.",
+              bullets: ["Bookings + store", "Unified flow", "Clearer business view"],
+              cta: "I want both",
+              eventType: "booking_purchase",
+              surfaceKey: "packages.scale.hybrid",
+            },
+          ],
           includes: ["Discovery call", "Defined scope", "Quote by email or WhatsApp"],
           excludes: ["Fixed pricing", "One-size-fits-all scope"],
-          note: "If the project does not fit Starter or Growth, contact us for more info.",
+          note: "If the project does not fit Starter, Growth, or Scale, contact us for more info.",
         },
       ],
     },
@@ -474,13 +517,13 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     packages: {
       eyebrow: "Forfaits web",
-      title: "Des forfaits web, sans prix pour le moment.",
+      title: "Forfaits web",
       description:
-        "Démarrage et Croissance couvrent les besoins web les plus courants. Nous construisons des sites sur mesure, pas de simples pages générées par IA, avec un positionnement pensé pour le web et pour les modèles d’IA. Si votre projet demande autre chose nous le chiffrons à part.",
+        "Starter, Growth et Scale couvrent les besoins web les plus courants. Nous construisons des sites sur mesure, pas de simples pages générées par IA, avec un positionnement pensé pour le web et pour les modèles d’IA. Scale se découpe aussi en réservation, e-commerce et flux hybrides quand un projet dépasse un simple site vitrine.",
       cards: [
         {
-          badge: "Démarrage",
-          title: "Site de lancement",
+          badge: "Starter",
+          title: "Site Starter",
           summary: "Un site léger pour tester une idée ou poser une présence en ligne simple.",
           facts: [
             { label: "Idéal pour", value: "Valider une idée de site web." },
@@ -493,8 +536,8 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           note: "Idéal pour aller vite sans alourdir le projet.",
         },
         {
-          badge: "Croissance",
-          title: "Site de croissance",
+          badge: "Growth",
+          title: "Site Growth",
           summary: "Un site plus complet pour accompagner une entreprise qui veut grandir, avec une meilleure visibilité sur le web et dans les modèles d’IA.",
           facts: [
             { label: "Idéal pour", value: "Développer une vraie entreprise." },
@@ -507,18 +550,50 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           note: "Idéal pour soutenir un marketing continu, le SEO et la visibilité dans les modèles d’IA.",
         },
         {
-          badge: "Devis",
-          title: "Devis sur mesure",
-          summary: "Vous cherchez un autre type de site web? Nous pouvons le définir et le chiffrer à part.",
+          badge: "Scale",
+          title: "Site Scale",
+          summary: "Un périmètre plus large pour des produits et équipes qui ont besoin d’une structure sur mesure, de plus de mouvement et d’espace pour évoluer.",
           facts: [
-            { label: "Idéal pour", value: "Un autre type de site." },
+            { label: "Idéal pour", value: "Des périmètres web plus larges." },
             { label: "Pages", value: "Sur mesure." },
             { label: "Révisions", value: "Sur demande." },
             { label: "SEO", value: "Sur mesure." },
           ],
+          modules: [
+            {
+              badge: "Réservation",
+              title: "Réserver vos clients",
+              summary:
+                "Vos clients réservent en cabinet, au bureau ou en boutique avec un parcours QR, une confirmation par email et des métriques sur les heures et jours les plus demandés.",
+              bullets: ["Réservation par QR", "Confirmation par email", "Métriques clients et horaires"],
+              cta: "Je veux réserver des clients",
+              eventType: "booking_start",
+              surfaceKey: "packages.scale.booking",
+            },
+            {
+              badge: "Commerce",
+              title: "Vendre à vos clients",
+              summary:
+                "Une boutique en ligne avec paiements sécurisés, clients organisés et analytics passifs pour voir ce qui convertit le mieux.",
+              bullets: ["Boutique en ligne", "Paiements sécurisés", "Dashboards intelligents"],
+              cta: "Je veux vendre en ligne",
+              eventType: "purchase_start",
+              surfaceKey: "packages.scale.purchase",
+            },
+            {
+              badge: "Hybride",
+              title: "Réserver et vendre",
+              summary:
+                "Combinez réservations et ventes dans un même site pour vendre des services, des produits ou les deux sans dupliquer les parcours.",
+              bullets: ["Réservations + boutique", "Flux unifié", "Vision plus claire du business"],
+              cta: "Je veux les deux",
+              eventType: "booking_purchase",
+              surfaceKey: "packages.scale.hybrid",
+            },
+          ],
           includes: ["Appel de découverte", "Périmètre défini", "Devis par email ou WhatsApp"],
           excludes: ["Tarif forfaitaire", "Périmètre identique pour tous"],
-          note: "Si le projet sort de Starter ou Growth, contactez-nous pour plus d’infos.",
+          note: "Si le projet ne rentre pas dans Starter, Growth ou Scale, contactez-nous pour plus d’infos.",
         },
       ],
     },
@@ -627,13 +702,13 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     packages: {
       eyebrow: "Paquetes web",
-      title: "Paquetes web sin precios por ahora.",
+      title: "Paquetes web",
       description:
-        "Inicio y Crecimiento cubren los alcances web más comunes. Construimos sitios a medida, no páginas simples hechas con AI, con posicionamiento pensado para la web y para modelos de AI. Si tu proyecto necesita algo distinto, lo cotizamos aparte.",
+        "Starter, Growth y Scale cubren los alcances web más comunes. Construimos sitios a medida, no páginas simples hechas con AI, con posicionamiento pensado para la web y para modelos de AI. Scale también se divide en reserva, ecommerce y flujos híbridos cuando el proyecto necesita más que un sitio vitrina.",
       cards: [
         {
-          badge: "Inicio",
-          title: "Sitio de lanzamiento",
+          badge: "Starter",
+          title: "Sitio Starter",
           summary: "Un sitio ligero para probar una idea o establecer una presencia en línea simple.",
           facts: [
             { label: "Ideal para", value: "Validar una idea de sitio web." },
@@ -646,8 +721,8 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           note: "Ideal para salir rápido sin complicar el alcance.",
         },
         {
-          badge: "Crecimiento",
-          title: "Sitio de crecimiento",
+          badge: "Growth",
+          title: "Sitio Growth",
           summary: "Un sitio más completo para acompañar a un negocio real que necesita más recorrido, mejor visibilidad en la web y en modelos de AI.",
           facts: [
             { label: "Ideal para", value: "Hacer crecer un negocio real." },
@@ -660,18 +735,50 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           note: "Ideal cuando el sitio debe apoyar marketing continuo, SEO y visibilidad en modelos de AI.",
         },
         {
-          badge: "Cotización",
-          title: "Cotización personalizada",
-          summary: "Si buscas otro tipo de sitio web, lo definimos y cotizamos aparte.",
+          badge: "Scale",
+          title: "Sitio Scale",
+          summary: "Un alcance más amplio para productos y equipos que necesitan estructura a medida, más piezas en movimiento y espacio para crecer.",
           facts: [
-            { label: "Ideal para", value: "Otro tipo de sitio web." },
+            { label: "Ideal para", value: "Alcances web más grandes." },
             { label: "Páginas", value: "Personalizado." },
             { label: "Revisiones", value: "Bajo solicitud." },
             { label: "SEO", value: "Personalizado." },
           ],
+          modules: [
+            {
+              badge: "Agenda",
+              title: "Agenda tus clientes",
+              summary:
+                "Tus clientes reservan tiempo en tu despacho, consultorio o sucursal con QR, confirmación por email y métricas de horarios y días de mayor demanda.",
+              bullets: ["Reserva con QR", "Confirmación por email", "Métricas de clientes y horarios"],
+              cta: "Quiero agendar clientes",
+              eventType: "booking_start",
+              surfaceKey: "packages.scale.booking",
+            },
+            {
+              badge: "Vende",
+              title: "Vende a tus clientes",
+              summary:
+                "Tu propia tienda en línea con pagos seguros, clientes ordenados y analítica pasiva para saber qué les gusta más dentro del sitio.",
+              bullets: ["Tienda online", "Pagos seguros", "Dashboards inteligentes"],
+              cta: "Quiero vender productos",
+              eventType: "purchase_start",
+              surfaceKey: "packages.scale.purchase",
+            },
+            {
+              badge: "Integrado",
+              title: "Agenda y vende",
+              summary:
+                "Une la reservación de citas y la venta de productos en un solo sitio, con beneficios completos de ambos flujos.",
+              bullets: ["Reservas + tienda", "Flujo unificado", "Más valor por visita"],
+              cta: "Quiero una solución integrada",
+              eventType: "booking_purchase",
+              surfaceKey: "packages.scale.hybrid",
+            },
+          ],
           includes: ["Llamada inicial", "Alcance definido", "Cotización por email o WhatsApp"],
           excludes: ["Precio fijo por paquete", "Alcance genérico"],
-          note: "Si el proyecto no entra en Inicio o Crecimiento, escríbenos para más info.",
+          note: "Si el proyecto no entra en Starter, Growth o Scale, escríbenos para más info.",
         },
       ],
     },
@@ -679,32 +786,32 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       eyebrow: "Servicios",
       title: "Servicios pensados primero para web.",
       description:
-        "Binff ayuda a los equipos a construir sitios web a medida y luego a sumar SEO, contenido, algo de marketing y, cuando hace falta, apps o integraciones. El resultado debe sentirse familiar para personas que usan apps modernas todos los días, posicionarse en la web y ser legible para modelos de AI, no como una plantilla simple generada por AI.",
+        "Binff ayuda a los equipos a crear sitios a medida y luego a sumar SEO, contenido y apoyo de marketing cuando hace falta. Si el proyecto lo pide, también añadimos apps o integraciones. La meta es que el sitio se sienta claro, moderno y fácil de usar, no como una plantilla hecha por AI.",
       cards: [
         {
           title: "Diseño web",
-          summary: "Sitios a medida con jerarquía clara, interacciones familiares y una ruta simple desde la idea hasta el lanzamiento.",
-          deliverables: ["Landing pages", "Sitios corporativos", "Páginas de campaña"],
+          summary: "Sitios claros, rápidos y hechos a la medida para presentar tu negocio sin enredos.",
+          deliverables: ["Una landing", "Sitio corporativo", "Página de campaña"],
         },
         {
           title: "SEO y contenido",
-          summary: "SEO on-page, estructura de contenido y mensajes bilingües para sitios fáciles de encontrar, de entender y de mostrar a modelos de AI.",
-          deliverables: ["Mapa de keywords", "Metadatos", "Esquemas de contenido"],
+          summary: "Te ayudamos a aparecer mejor en Google con textos claros, páginas ordenadas y mensajes fáciles de entender.",
+          deliverables: ["Palabras clave", "Metadatos", "Estructura de contenidos"],
         },
         {
           title: "Modernización de sitios",
-          summary: "Renovamos sitios antiguos con mejor UX, estructura más sólida y una sensación más cercana a las apps actuales.",
-          deliverables: ["Auditoría UX", "Revisión de arquitectura de la información", "Actualizaciones visuales"],
+          summary: "Renovamos sitios viejos para que se vean actuales y se sientan más fáciles de navegar.",
+          deliverables: ["Revisión UX", "Orden de contenidos", "Mejoras visuales"],
         },
         {
           title: "Apps móviles bajo solicitud",
-          summary: "Conceptos y builds de app solo cuando el proyecto realmente lo necesita. Si se requiere, se cotiza por separado.",
-          deliverables: ["Sistemas UI", "Prototipos", "React Native"],
+          summary: "Si tu proyecto realmente necesita una app, la planteamos aparte para no mezclarla con la web.",
+          deliverables: ["Pantallas clave", "Prototipos", "App móvil"],
         },
         {
           title: "Integraciones avanzadas",
-          summary: "AI, automatización y Web3 cuando el proyecto sí se beneficia de ellas, usando tecnología actual y con mejor lectura para modelos de AI.",
-          deliverables: ["Flujos de automatización", "Asistentes AI", "Integraciones Web3"],
+          summary: "Automatizaciones, pagos o funciones con IA cuando sí aportan valor al proyecto.",
+          deliverables: ["Automatizaciones", "Asistentes IA", "Conexiones externas"],
         },
       ],
     },

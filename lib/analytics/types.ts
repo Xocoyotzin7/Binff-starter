@@ -1,4 +1,10 @@
-export type AnalyticsEventType = "page_view" | "cta_click"
+export type AnalyticsEventType =
+  | "page_view"
+  | "cta_click"
+  | "booking_start"
+  | "booking_confirmed"
+  | "purchase_start"
+  | "purchase_confirmed"
 
 export type AnalyticsPageType =
   | "home"
@@ -35,6 +41,9 @@ export type AnalyticsTrackInput = {
   utmMedium: string | null
   utmCampaign: string | null
   eventType: AnalyticsEventType
+  surfaceKey: string | null
+  interactionLabel: string | null
+  interactionValue: number | null
 }
 
 export type AnalyticsEvent = AnalyticsTrackInput & {
@@ -79,6 +88,11 @@ export type AnalyticsTotals = {
   sessions: number
   visitors: number
   ctaClicks: number
+  bookingStarts: number
+  bookingConfirmed: number
+  purchaseStarts: number
+  purchaseConfirmed: number
+  interactions: number
   avgTimeOnPage: number
   avgScrollDepth: number
   engagementRate: number
@@ -93,11 +107,53 @@ export type MonthlyAnalyticsReport = {
   dailySeries: AnalyticsDailyPoint[]
   topPages: AnalyticsPageRow[]
   topReferrers: AnalyticsSimpleRow[]
+  eventTypeBreakdown: AnalyticsSimpleRow[]
+  surfaceBreakdown: AnalyticsSimpleRow[]
   localeBreakdown: AnalyticsSimpleRow[]
   deviceBreakdown: AnalyticsSimpleRow[]
   pageTypeBreakdown: AnalyticsSimpleRow[]
   charts: {
     lineChartSvg: string
     barChartSvg: string
+  }
+}
+
+export type AnalyticsDashboardSeriesPoint = {
+  date: string
+  label: string
+  views: number
+  interactions: number
+  avgTimeOnPage: number
+  avgScrollDepth: number
+}
+
+export type AnalyticsScatterPoint = {
+  label: string
+  day: number
+  views: number
+  avgTimeOnPage: number
+  avgScrollDepth: number
+  interactions: number
+}
+
+export type AnalyticsDashboardData = {
+  monthKey: string
+  monthLabel: string
+  generatedAt: string
+  availableMonths: string[]
+  totals: AnalyticsTotals
+  dailySeries: AnalyticsDashboardSeriesPoint[]
+  scatterSeries: AnalyticsScatterPoint[]
+  topPages: AnalyticsPageRow[]
+  topSurfaces: AnalyticsSimpleRow[]
+  eventTypeBreakdown: AnalyticsSimpleRow[]
+  referrerBreakdown: AnalyticsSimpleRow[]
+  localeBreakdown: AnalyticsSimpleRow[]
+  deviceBreakdown: AnalyticsSimpleRow[]
+  pageTypeBreakdown: AnalyticsSimpleRow[]
+  charts: {
+    topPagesBar: Array<{ label: string; value: number; secondary: number }>
+    surfacesBar: Array<{ label: string; value: number; secondary: number }>
+    scatter: AnalyticsScatterPoint[]
   }
 }

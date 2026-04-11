@@ -33,7 +33,17 @@ const AnalyticsEventSchema = z.object({
   utmSource: z.string().nullable().optional(),
   utmMedium: z.string().nullable().optional(),
   utmCampaign: z.string().nullable().optional(),
-  eventType: z.enum(["page_view", "cta_click"]).default("page_view"),
+  eventType: z.enum([
+    "page_view",
+    "cta_click",
+    "booking_start",
+    "booking_confirmed",
+    "purchase_start",
+    "purchase_confirmed",
+  ]).default("page_view"),
+  surfaceKey: z.string().nullable().optional(),
+  interactionLabel: z.string().nullable().optional(),
+  interactionValue: z.coerce.number().nullable().optional(),
 })
 
 export async function POST(request: NextRequest) {
@@ -58,6 +68,9 @@ export async function POST(request: NextRequest) {
       utmSource: parsed.utmSource ?? null,
       utmMedium: parsed.utmMedium ?? null,
       utmCampaign: parsed.utmCampaign ?? null,
+      surfaceKey: parsed.surfaceKey ?? null,
+      interactionLabel: parsed.interactionLabel ?? null,
+      interactionValue: parsed.interactionValue ?? null,
       referrerHost: resolveReferrerHost(parsed.referrerUrl ?? null),
       referrerCategory: resolveReferrerCategory(parsed.referrerUrl ?? null, origin),
       deviceCategory: resolveDeviceCategory(parsed.viewportWidth ?? parsed.screenWidth ?? null),

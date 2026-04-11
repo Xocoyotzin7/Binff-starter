@@ -28,6 +28,6 @@ function TreeMark() {
   )
 }
 
-export default function Icon() {
-  return new ImageResponse(TreeMark(), size);
+export function GET() {
+  return new ImageResponse(TreeMark(), size)
 }

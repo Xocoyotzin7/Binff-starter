@@ -20,8 +20,8 @@ export function SectionShell({ id, eyebrow, title, description, children, classN
           className="opacity-100 mix-blend-soft-light"
           quantity={140}
           accentRatio={0.28}
-          baseColor="86, 122, 100"
-          accentColor="20, 102, 72"
+          baseColor="214, 122, 44"
+          accentColor="255, 154, 72"
           opacity={0.95}
         />
         <div className="relative">

@@ -20,6 +20,20 @@ const packageChipSurfaces = [
 
 const packageFactIcons = [Target, LayoutGrid, RefreshCw, Search] as const
 
+function buildAnalyticsAttrs(
+  eventType: string,
+  surfaceKey: string,
+  label: string,
+  value?: string | number,
+) {
+  return {
+    "data-analytics-event": eventType,
+    "data-analytics-surface": surfaceKey,
+    "data-analytics-label": label,
+    ...(value === undefined ? {} : { "data-analytics-value": String(value) }),
+  } as const
+}
+
 type PackagesPageContentProps = {
   locale: Locale
 }
@@ -30,19 +44,30 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
   const copy = getSiteCopy(locale)
   const mainEmail = copy.contact.emails[0]
   const whatsappHref = `https://wa.me/${copy.contact.whatsapp.replace(/[^+\d]/g, "").replace(/^\+/, "")}`
-  const visiblePackages = copy.packages.cards.slice(0, 2)
+
+  const starterPackage = copy.packages.cards.find((card) => card.badge === "Starter") ?? copy.packages.cards[0]
+  const growthPackage = copy.packages.cards.find((card) => card.badge === "Growth") ?? copy.packages.cards[1]
+  const scalePackage = copy.packages.cards.find((card) => card.badge === "Scale") ?? copy.packages.cards[2]
 
   // AGENCY_OWNED: reusable contact CTA block shared across package cards and quote prompts.
-  const contactActions = (
+  const renderContactActions = (surfaceKey: string) => (
     <div className="flex flex-wrap gap-2 pt-1">
       <Button asChild size="sm" variant="outline" className="rounded-full">
-        <a href={`mailto:${mainEmail}`}>
+        <a
+          href={`mailto:${mainEmail}`}
+          {...buildAnalyticsAttrs("cta_click", `${surfaceKey}.email`, "Email")}
+        >
           <Mail className="h-4 w-4" />
           Email
         </a>
       </Button>
       <Button asChild size="sm" className="rounded-full">
-        <a href={whatsappHref} target="_blank" rel="noreferrer">
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noreferrer"
+          {...buildAnalyticsAttrs("cta_click", `${surfaceKey}.whatsapp`, "WhatsApp")}
+        >
           <MinimalWhatsappIcon className="h-4 w-4" />
           WhatsApp
         </a>
@@ -50,33 +75,217 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
     </div>
   )
 
+  const renderPackageCard = (
+    card: (typeof copy.packages.cards)[number],
+    index: number,
+    isScale = false,
+  ) => (
+    <article
+      className={`rounded-[2rem] border border-border/70 bg-card/75 p-3 shadow-[0_10px_35px_-24px_rgba(2,6,23,0.55)] transition ${
+        !isScale && index === 1 ? "md:translate-y-4" : ""
+      } ${isScale ? "md:col-span-2" : ""}`}
+    >
+      <div
+        className={`relative h-full overflow-hidden rounded-[1.4rem] border border-border/70 bg-gradient-to-br p-5 ${
+          packageSurfaces[index % packageSurfaces.length]
+        }`}
+      >
+        <div className="absolute -right-8 -top-8 h-20 w-20 rounded-full bg-accent/20 blur-xl" />
+        <div className="absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-primary/20 blur-xl" />
+        <div className="relative space-y-4">
+          <span className="inline-flex rounded-full border border-border/70 bg-background/75 px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
+            {card.badge}
+          </span>
+
+          {card.modules?.length ? (
+            <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">{card.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{card.summary}</p>
+                </div>
+
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {card.facts.map((fact, factIndex) => {
+                    const Icon = packageFactIcons[factIndex % packageFactIcons.length]
+
+                    return (
+                      <div key={`${card.title}-${fact.label}`} className="rounded-2xl border border-border/60 bg-background/72 p-3">
+                        <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground underline decoration-[color:var(--accent)] decoration-2 underline-offset-4">
+                          <Icon className="h-3.5 w-3.5 shrink-0 text-[color:var(--accent)] no-underline" />
+                          <span>{fact.label}</span>
+                        </div>
+                        <p className="mt-1 text-sm font-medium leading-6 text-foreground">{fact.value}</p>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                <div className="space-y-3">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground underline decoration-[color:var(--accent)] decoration-2 underline-offset-4">
+                      {locale === "fr" ? "Inclus" : locale === "es" ? "Incluye" : "Includes"}
+                    </p>
+                    <ul className="mt-2 space-y-2 text-sm text-foreground">
+                      {card.includes.map((item) => (
+                        <li key={item} className="flex gap-2">
+                          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                          <span className="underline decoration-white/30 decoration-2 underline-offset-4">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground underline decoration-[color:var(--accent)] decoration-2 underline-offset-4">
+                      {locale === "fr" ? "Non inclus" : locale === "es" ? "No incluye" : "Excludes"}
+                    </p>
+                    <ul className="mt-2 space-y-2 text-sm text-foreground">
+                      {card.excludes.map((item) => (
+                        <li key={item} className="flex gap-2">
+                          <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-rose-400" />
+                          <span className="line-through decoration-white/30 decoration-2">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <p className="pt-1 text-xs leading-relaxed text-muted-foreground">{card.note}</p>
+                {renderContactActions(`packages.${card.badge.toLowerCase()}`)}
+              </div>
+
+              <div className="grid gap-3">
+                {card.modules.map((module, moduleIndex) => (
+                  <article
+                    key={module.title}
+                    className={`flex h-full flex-col justify-between rounded-2xl border border-border/60 bg-background/76 p-4 shadow-[0_12px_28px_-22px_rgba(2,6,23,0.4)] ${
+                      moduleIndex % 2 === 0 ? "package-scale-rise" : "package-scale-fall"
+                    }`}
+                    style={{
+                      ["--package-scale-duration" as string]: `${8.5 + moduleIndex * 0.7}s`,
+                      ["--package-scale-delay" as string]: `${moduleIndex * 140}ms`,
+                    }}
+                  >
+                    <div className="space-y-3">
+                      <span className="inline-flex rounded-full border border-border/70 bg-background/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+                        {module.badge}
+                      </span>
+                      <div className="space-y-1.5">
+                        <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-card-foreground">
+                          {module.title}
+                        </h4>
+                        <p className="text-sm leading-6 text-muted-foreground">{module.summary}</p>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {module.bullets.map((bullet) => (
+                          <span
+                            key={bullet}
+                            className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/75 px-3 py-1 text-xs text-card-foreground"
+                          >
+                            <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-500" />
+                            <span>{bullet}</span>
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="pt-4">
+                      <Button asChild size="sm" className="rounded-full">
+                        <a
+                          href={`mailto:${mainEmail}?subject=${encodeURIComponent(`${card.title} - ${module.title}`)}`}
+                          {...buildAnalyticsAttrs(module.eventType, module.surfaceKey, module.cta)}
+                        >
+                          {module.cta}
+                        </a>
+                      </Button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="space-y-2">
+                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">{card.title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">{card.summary}</p>
+              </div>
+
+              <div className="grid gap-2 sm:grid-cols-2">
+                {card.facts.map((fact, factIndex) => {
+                  const Icon = packageFactIcons[factIndex % packageFactIcons.length]
+
+                  return (
+                    <div key={`${card.title}-${fact.label}`} className="rounded-2xl border border-border/60 bg-background/70 p-3">
+                      <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground underline decoration-[color:var(--accent)] decoration-2 underline-offset-4">
+                        <Icon className="h-3.5 w-3.5 shrink-0 text-[color:var(--accent)] no-underline" />
+                        <span>{fact.label}</span>
+                      </div>
+                      <p className="mt-1 text-sm font-medium leading-6 text-foreground">{fact.value}</p>
+                    </div>
+                  )
+                })}
+              </div>
+
+              <div className="grid gap-2 sm:grid-cols-2">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground underline decoration-[color:var(--accent)] decoration-2 underline-offset-4">
+                    {locale === "fr" ? "Inclus" : locale === "es" ? "Incluye" : "Includes"}
+                  </p>
+                  <ul className="mt-2 space-y-2 text-sm text-foreground">
+                    {card.includes.map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                        <span className="underline decoration-white/30 decoration-2 underline-offset-4">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground underline decoration-[color:var(--accent)] decoration-2 underline-offset-4">
+                    {locale === "fr" ? "Non inclus" : locale === "es" ? "No incluye" : "Excludes"}
+                  </p>
+                  <ul className="mt-2 space-y-2 text-sm text-foreground">
+                    {card.excludes.map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-rose-400" />
+                        <span className="line-through decoration-white/30 decoration-2">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <p className="pt-1 text-xs leading-relaxed text-muted-foreground">{card.note}</p>
+            {renderContactActions(`packages.${card.badge.toLowerCase()}`)}
+          </>
+          )}
+        </div>
+      </div>
+    </article>
+  )
+
   return (
-    <main id="packages-scope" className="mx-auto w-full max-w-6xl px-4 pb-12 pt-32 sm:px-6 lg:pt-36">
-      <HeadingTypewriter scopeSelector="#packages-scope" />
+    <>
+      <main id="packages-scope" className="mx-auto w-full max-w-6xl px-4 pb-12 pt-32 sm:px-6 lg:pt-36">
+        <HeadingTypewriter scopeSelector="#packages-scope" />
 
       <ScrollReveal direction="up" className="mt-2">
-      <section className="grid gap-4 rounded-[2rem] border border-border/60 bg-card/80 p-5 text-card-foreground dark:bg-card/70 md:grid-cols-[1.05fr_0.95fr] md:p-6">
-        <div className="space-y-4">
-          {/* CLIENTE_OWNED: section labels and commercial scope copy are site content. */}
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--accent)]">
-            {copy.packages.eyebrow}
-          </p>
+        <section className="grid gap-4 rounded-[2rem] border border-border/60 bg-card/80 p-5 text-card-foreground dark:bg-card/70 md:grid-cols-[1.05fr_0.95fr] md:p-6">
+          <div className="space-y-4">
+            {/* CLIENTE_OWNED: section labels and commercial scope copy are site content. */}
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--accent)]">
+              {copy.packages.eyebrow}
+            </p>
             <h2 className="text-2xl font-semibold tracking-tight text-card-foreground md:text-3xl">
               {copy.packages.title}
             </h2>
             <p className="text-sm leading-7 text-muted-foreground md:text-base">{copy.packages.description}</p>
             <div className="flex flex-wrap gap-2">
-              {(locale === "es"
-                ? ["Inicio", "Crecimiento", "Cotización"]
-                : locale === "fr"
-                  ? ["Démarrage", "Croissance", "Devis"]
-                  : ["Starter", "Growth", "Quote"]
-              ).map((item, index) => (
+              {copy.packages.cards.map((card, index) => (
                 <span
-                  key={item}
+                  key={card.badge}
                   className={`rounded-full border px-3 py-1 text-xs font-medium ${packageChipSurfaces[index % packageChipSurfaces.length]}`}
                 >
-                  {item}
+                  {card.badge}
                 </span>
               ))}
             </div>
@@ -98,86 +307,19 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
       </ScrollReveal>
 
       {/* AGENCY_OWNED: reusable card grid, motion timing, and visual hierarchy. */}
-      <section className="mt-10 grid gap-4 md:grid-cols-2">
-        {visiblePackages.map((card, index) => (
-          <ScrollReveal
-            key={card.title}
-            direction={index % 2 === 0 ? "up" : "down"}
-            delay={0.12 + index * 0.18}
-          >
-            <article
-              className={`rounded-[2rem] border border-border/70 bg-card/75 p-3 shadow-[0_10px_35px_-24px_rgba(2,6,23,0.55)] transition ${
-                index === 1 ? "md:translate-y-4" : ""
-              }`}
-            >
-              <div
-                className={`relative h-full overflow-hidden rounded-[1.4rem] border border-border/70 bg-gradient-to-br p-5 ${
-                  packageSurfaces[index % packageSurfaces.length]
-                }`}
-              >
-                  <div className="absolute -right-8 -top-8 h-20 w-20 rounded-full bg-accent/20 blur-xl" />
-                  <div className="absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-primary/20 blur-xl" />
-                  <div className="relative space-y-4">
-                    <span className="inline-flex rounded-full border border-border/70 bg-background/75 px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
-                      {card.badge}
-                    </span>
-                    <div className="space-y-2">
-                      <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">{card.title}</h3>
-                      <p className="text-sm leading-relaxed text-muted-foreground">{card.summary}</p>
-                    </div>
-
-                    <div className="grid gap-2 sm:grid-cols-2">
-                      {card.facts.map((fact, factIndex) => {
-                        const Icon = packageFactIcons[factIndex % packageFactIcons.length]
-
-                        return (
-                          <div key={`${card.title}-${fact.label}`} className="rounded-2xl border border-border/60 bg-background/70 p-3">
-                            <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground underline decoration-[color:var(--accent)] decoration-2 underline-offset-4">
-                              <Icon className="h-3.5 w-3.5 shrink-0 text-[color:var(--accent)] no-underline" />
-                              <span>{fact.label}</span>
-                            </div>
-                            <p className="mt-1 text-sm font-medium leading-6 text-foreground">{fact.value}</p>
-                          </div>
-                        )
-                      })}
-                    </div>
-
-                    <div className="grid gap-3 pt-1">
-                      <div>
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground underline decoration-[color:var(--accent)] decoration-2 underline-offset-4">
-                          {locale === "fr" ? "Inclus" : locale === "es" ? "Incluye" : "Includes"}
-                        </p>
-                        <ul className="mt-2 space-y-2 text-sm text-foreground">
-                          {card.includes.map((item) => (
-                            <li key={item} className="flex gap-2">
-                              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
-                              <span className="underline decoration-white/30 decoration-2 underline-offset-4">{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div>
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground underline decoration-[color:var(--accent)] decoration-2 underline-offset-4">
-                          {locale === "fr" ? "Non inclus" : locale === "es" ? "No incluye" : "Excludes"}
-                        </p>
-                        <ul className="mt-2 space-y-2 text-sm text-foreground">
-                          {card.excludes.map((item) => (
-                            <li key={item} className="flex gap-2">
-                              <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-rose-400" />
-                              <span className="line-through decoration-white/30 decoration-2">{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-
-                    <p className="pt-1 text-xs leading-relaxed text-muted-foreground">{card.note}</p>
-                    {contactActions}
-                  </div>
-                </div>
-              </article>
+      <section className="mt-10 grid gap-4">
+        <div className="grid gap-4 md:grid-cols-2">
+          <ScrollReveal direction="up" delay={0.12}>
+            {renderPackageCard(starterPackage, 0)}
           </ScrollReveal>
-        ))}
+          <ScrollReveal direction="down" delay={0.3}>
+            {renderPackageCard(growthPackage, 1)}
+          </ScrollReveal>
+        </div>
+
+        <ScrollReveal direction="up" delay={0.48}>
+          {renderPackageCard(scalePackage, 2, true)}
+        </ScrollReveal>
       </section>
 
       <ScrollReveal direction="up" delay={0.46} className="mt-8">
@@ -220,6 +362,7 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
           </div>
         </section>
       </ScrollReveal>
-    </main>
+      </main>
+    </>
   )
 }
