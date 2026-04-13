@@ -25,8 +25,8 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
     { href: localizedSectionHref(locale, "about"), label: copy.nav.about },
     { href: localizedSectionHref(locale, "packages"), label: copy.nav.packages },
     { href: localizedSectionHref(locale, "services"), label: copy.nav.services },
-    { href: "/portfolio", label: copy.nav.portfolio },
     { href: localizedSectionHref(locale, "blog"), label: copy.nav.blog },
+    { href: "/portfolio", label: copy.nav.portfolio },
   ]
 
   return (

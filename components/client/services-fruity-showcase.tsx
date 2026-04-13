@@ -602,7 +602,7 @@ function VisibilityVisual({
             </filter>
           </defs>
 
-          <g transform={compact ? "translate(-88 72) scale(1.04)" : "translate(-154 0)"}>
+          <g transform={compact ? "translate(-46 46) scale(1.18)" : "translate(-154 0)"}>
             <path
               d="M 624 118 C 744 132, 796 208, 752 274 C 704 346, 676 402, 706 470"
               fill="none"
@@ -841,7 +841,7 @@ function MobileSceneCard({
       </div>
 
       <div className="mb-4 rounded-[1.75rem] border border-border/60 bg-background/60">
-        <div className="h-[280px] overflow-hidden sm:h-[280px]">
+        <div className="h-[320px] overflow-hidden sm:h-[280px]">
           {index === 0 ? (
             <ProductBuildVisual strength={1} reducedMotion={reducedMotion} />
           ) : index === 1 ? (
