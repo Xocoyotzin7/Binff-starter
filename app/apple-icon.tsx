@@ -7,15 +7,15 @@ export const size = {
 
 export const contentType = "image/png"
 
-function TreeMark() {
+function CameraMark() {
   return (
-    <svg viewBox="0 0 100 100" width="100%" height="100%" aria-label="Tree apple icon">
+    <svg viewBox="0 0 100 100" width="100%" height="100%" aria-label="Camera apple icon">
       <rect width="100" height="100" rx="26" fill="#eff8ea" />
-      <path d="M50 11L24 54h52L50 11Z" fill="#2f7d32" />
-      <path d="M50 24L30 59h40L50 24Z" fill="#4c9f50" />
-      <path d="M50 40L36 67h28L50 40Z" fill="#6bbf69" />
-      <path d="M43 61h14v24H43z" fill="#8a5a2b" />
-      <rect x="41" y="58" width="18" height="5" rx="2.5" fill="#70461f" />
+      <rect x="15" y="25" width="70" height="50" rx="8" fill="#2f7d32" />
+      <circle cx="50" cy="50" r="20" fill="#4c9f50" />
+      <circle cx="50" cy="50" r="12" fill="#6bbf69" />
+      <circle cx="50" cy="50" r="6" fill="#9fd98f" />
+      <rect x="35" y="20" width="30" height="10" rx="5" fill="#8a5a2b" />
       <circle cx="72" cy="28" r="5" fill="#9fd98f" opacity="0.85" />
     </svg>
   )
@@ -36,7 +36,7 @@ export default function AppleIcon() {
           borderRadius: 36,
         }}
       >
-        <TreeMark />
+        <CameraMark />
       </div>
     ),
     {

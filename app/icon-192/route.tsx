@@ -2,13 +2,16 @@ import { ImageResponse } from "next/og"
 
 export const dynamic = "force-dynamic"
 
-function TreeMark() {
+function CameraMark() {
   return (
-    <svg viewBox="0 0 100 100" width="100%" height="100%" aria-label="Tree icon 192">
-      <path d="M50 12c7 0 12 6 12 13 0 3-1 6-3 8 7 1 12 7 12 14 0 8-6 15-14 15H33c-8 0-14-7-14-15 0-7 5-13 12-14-2-2-3-5-3-8 0-7 5-13 12-13z" fill="#2f855a" />
-      <path d="M44 57h12v28H44z" fill="#8b5a2b" />
-      <path d="M50 53c-6 0-10-4-10-10s4-10 10-10 10 4 10 10-4 10-10 10zm0-6c3 0 5-2 5-4s-2-4-5-4-5 2-5 4 2 4 5 4z" fill="#d6f5d0" opacity="0.95" />
-      <path d="M34 41c0-7 5-12 11-13 1 1 3 1 5 1 2 0 4 0 5-1 6 1 11 6 11 13 0 3-1 6-3 8H37c-2-2-3-5-3-8z" fill="#4caf73" opacity="0.9" />
+    <svg viewBox="0 0 100 100" width="100%" height="100%" aria-label="Camera icon 192">
+      <rect width="100" height="100" rx="26" fill="#eff8ea" />
+      <rect x="15" y="25" width="70" height="50" rx="8" fill="#2f7d32" />
+      <circle cx="50" cy="50" r="20" fill="#4c9f50" />
+      <circle cx="50" cy="50" r="12" fill="#6bbf69" />
+      <circle cx="50" cy="50" r="6" fill="#9fd98f" />
+      <rect x="35" y="20" width="30" height="10" rx="5" fill="#8a5a2b" />
+      <circle cx="72" cy="28" r="5" fill="#9fd98f" opacity="0.85" />
     </svg>
   )
 }
@@ -28,7 +31,7 @@ export function GET() {
           borderRadius: 38,
         }}
       >
-        <TreeMark />
+        <CameraMark />
       </div>
     ),
     {
