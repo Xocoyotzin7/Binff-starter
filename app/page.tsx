@@ -8,6 +8,24 @@ export const metadata: Metadata = {
   title: "Aída Maestro | Photographer",
   description:
     "Aída Maestro is a professional editorial and commercial photographer creating quiet, considered imagery for brands, portraits, and campaigns.",
+  openGraph: {
+    title: "Aída Maestro | Photographer",
+    description: "Professional editorial and commercial photography with quiet confidence.",
+    images: [
+      {
+        url: "/photos/iguazu.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Aída Maestro Photography",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Aída Maestro | Photographer",
+    description: "Professional editorial and commercial photography with quiet confidence.",
+    images: ["/photos/iguazu.jpeg"],
+  },
 }
 
 export default function Home() {
