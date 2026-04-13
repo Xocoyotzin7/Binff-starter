@@ -1,90 +1,190 @@
-import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
+import Image from "next/image"
+import { HeadingTypewriter } from "@/components/core/heading-typewriter"
+import { PhotoStoryGallery } from "@/components/core/magazine-carousel"
+import { ScrollReveal } from "@/components/core/scroll-reveal"
 import type { Metadata } from "next"
 
-import { Button } from "@/components/ui/button"
-import { HomeShatteringBackground } from "@/components/client/home-shattering-background"
-import { Seo } from "@/components/seo/Seo"
-import { buildBreadcrumbList, buildPageMetadata, seoConfig } from "@/lib/seo"
-import { getLocaleFromCookies } from "@/lib/locale"
-import { getSiteCopy } from "@/lib/site-content"
-
-// MIXED: home page uses reusable SEO/layout primitives and client-owned brand copy/hero assets.
-export function generateMetadata(): Metadata {
-  // AGENCY_OWNED: metadata builder, canonical URLs, and social previews are reusable SEO primitives.
-  return buildPageMetadata(seoConfig, {
-    title: `${seoConfig.brand.brandName} Studio`,
-    description: seoConfig.brand.brandDescription,
-    canonicalPath: "/",
-    openGraph: {
-      type: "website",
-      images: [
-        {
-          url: "/opengraph-image",
-          width: 1200,
-          height: 630,
-          alt: seoConfig.brand.brandName,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      images: ["/opengraph-image"],
-    },
-  })
+export const metadata: Metadata = {
+  title: "Aída Maestro | Photographer",
+  description:
+    "Aída Maestro is a professional editorial and commercial photographer creating quiet, considered imagery for brands, portraits, and campaigns.",
 }
 
-export default async function Home() {
-  // CLIENTE_OWNED: hero copy and background image are brand-facing site content.
-  const locale = await getLocaleFromCookies()
-  const copy = getSiteCopy(locale)
-  // AGENCY_OWNED: breadcrumb entity generation is reusable SEO infrastructure.
-  const entities = buildBreadcrumbList([{ name: "Inicio", path: "/" }], seoConfig)
-
+export default function Home() {
   return (
-    <main className="relative min-h-screen overflow-hidden">
-      <Seo entities={entities} />
-      <section className="relative isolate flex min-h-screen items-center justify-center px-4 pt-28 sm:px-6 lg:pt-32">
-        <div className="absolute inset-0">
-          <HomeShatteringBackground src="/serene-nature-sharp.jpg" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/18 via-black/10 to-background/45" />
+    <main className="relative mx-auto min-h-screen max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+      <section id="top" className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <div className="space-y-10">
+          <div className="max-w-3xl">
+            <p className="text-sm uppercase tracking-[0.35em] text-muted-foreground">Photography</p>
+            <h1 className="mt-6 text-5xl font-serif leading-tight tracking-tight text-foreground sm:text-6xl lg:text-7xl">
+              Aída Maestro
+            </h1>
+            <HeadingTypewriter scopeSelector="#top" />
+            <p className="mt-8 max-w-2xl text-lg leading-8 text-muted-foreground">
+              Editorial and commercial photography with quiet confidence, clear visual direction, and a refined mood for brands,
+              portrait work, and editorial stories.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-4 sm:flex-row">
+            <a
+              href="mailto:y@criptec.io"
+              className="inline-flex items-center justify-center rounded-full border border-foreground/15 bg-foreground/10 px-8 py-4 text-sm font-semibold text-foreground transition hover:border-foreground/30 hover:bg-foreground/15"
+            >
+              Book a session
+            </a>
+            <a
+              href="#portfolio"
+              className="inline-flex items-center justify-center rounded-full border border-muted/20 bg-transparent px-8 py-4 text-sm font-semibold text-muted-foreground transition hover:border-foreground/25 hover:text-foreground"
+            >
+              View work
+            </a>
+          </div>
         </div>
 
-        <div
-          className="relative z-10 flex w-full max-w-5xl -translate-y-[18%] flex-col items-center text-center lg:-translate-y-[33%]"
-        >
-          <h1
-            className="home-reveal-title font-serif text-5xl leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl xl:text-[5rem]"
-            style={{ textShadow: "0 4px 20px rgba(0,0,0,0.5)" }}
-          >
-            <span className="home-reveal-title__line">
-              <span className="bg-gradient-to-b from-white via-white to-zinc-300 bg-clip-text text-transparent dark:from-white dark:via-white dark:to-zinc-400">
-                {copy.brand.name} Studio
-              </span>
-            </span>
-            <span className="home-reveal-title__line mt-10 block sm:mt-12">
-              <span className="text-[1.45rem] font-medium leading-tight text-white/82 sm:text-[1.75rem] md:text-[2rem]">
-                {copy.hero.slogan}
-              </span>
-            </span>
-          </h1>
+        <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-[0_40px_120px_-48px_rgba(0,0,0,0.55)]">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.14),transparent_28%)] opacity-70" />
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-[#111]">
+            <Image
+              src="/photos/chalten.jpeg"
+              alt="Chalten location portrait"
+              fill
+              className="object-cover transition duration-700 ease-out"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.08),transparent_24%)]" />
+            <div className="absolute left-6 top-6 h-24 w-24 rounded-full bg-white/5 blur-3xl" />
+            <div className="absolute -right-10 top-10 h-40 w-40 rounded-full bg-white/5 blur-3xl" />
+            <div className="absolute inset-0 flex items-end justify-start p-8">
+              <div className="rounded-[2rem] border border-white/10 bg-black/40 p-8 text-white/90 shadow-xl backdrop-blur-sm">
+                <p className="text-sm uppercase tracking-[0.32em] text-muted-foreground">Featured</p>
+                <p className="mt-4 text-2xl font-semibold tracking-tight">Quiet light portraits with an editorial mood.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-          <p className="mt-10 max-w-2xl text-sm leading-7 text-white/78 sm:text-base sm:leading-8">
-            {copy.hero.description}
-          </p>
+      <section id="about" className="mt-24 border-t border-foreground/10 pt-24">
+        <div className="max-w-4xl">
+          <div className="space-y-6">
+            <p className="text-sm uppercase tracking-[0.35em] text-muted-foreground">About</p>
+            <h2 className="text-4xl font-serif leading-tight tracking-tight text-foreground sm:text-5xl">
+              Aida captures stories that feel polished, intimate, and distinctive.
+            </h2>
+            <HeadingTypewriter scopeSelector="#about" />
+          </div>
 
-          <Button asChild className="group relative mt-10 overflow-hidden rounded-full border border-white/20 bg-white/10 px-8 py-4 font-medium text-white shadow-2xl backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:border-white/30 hover:bg-white/20">
-            <Link
-              href="/services"
-              data-analytics-event="cta_click"
-              data-analytics-surface="home.hero.services"
-              data-analytics-label={copy.nav.projectCta}
+          <ScrollReveal delay={0.1}>
+            <div className="mt-10 space-y-6 text-lg leading-8 text-muted-foreground">
+              <p>
+                Aída Maestro works with editorial teams, brands, and creative directors to produce photography that supports strong narratives and a confident visual tone.
+              </p>
+              <p>
+                Her work balances precise composition with subtle atmosphere, bringing modern elegance to portrait, fashion, and commercial storytelling.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal className="mt-12 grid gap-4 sm:grid-cols-2" delay={0.2} direction="up">
+            {[
+              "Editorial stories with refined lighting",
+              "Portraits that feel polished and personal",
+              "Commercial work designed for art direction",
+              "Campaign imagery with calm yet distinct mood",
+            ].map((item) => (
+              <div key={item} className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 text-sm text-muted-foreground">
+                {item}
+              </div>
+            ))}
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section id="work" className="mt-24 border-t border-foreground/10 pt-24">
+        <div className="max-w-4xl">
+          <div className="space-y-6">
+            <p className="text-sm uppercase tracking-[0.35em] text-muted-foreground">Work</p>
+            <h2 className="text-4xl font-serif leading-tight tracking-tight text-foreground sm:text-5xl">
+              Focused photography for brands, portraits, and editorial commissions.
+            </h2>
+            <HeadingTypewriter scopeSelector="#work" />
+          </div>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            {[
+              {
+                title: "Editorial",
+                text: "Stories shot for magazine features, lookbooks, and brand storytelling with cinematic restraint.",
+              },
+              {
+                title: "Portrait",
+                text: "Portrait sessions that reveal character and maintain a timeless, editorial quality.",
+              },
+              {
+                title: "Commercial",
+                text: "Brand imagery with a refined visual strategy for campaigns, launches, and online presence.",
+              },
+            ].map((item) => (
+              <ScrollReveal key={item.title} className="rounded-[2rem] border border-white/10 bg-black/20 p-8 backdrop-blur-sm" delay={0.15} direction="up">
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-muted-foreground">{item.title}</p>
+                <p className="mt-5 text-base leading-7 text-muted-foreground">{item.text}</p>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <PhotoStoryGallery />
+
+      <section id="process" className="mt-24 border-t border-foreground/10 pt-24">
+        <div className="max-w-4xl">
+          <div className="space-y-6">
+            <p className="text-sm uppercase tracking-[0.35em] text-muted-foreground">Process</p>
+            <h2 className="text-4xl font-serif leading-tight tracking-tight text-foreground sm:text-5xl">
+              A clear, direct process for every shoot.
+            </h2>
+            <HeadingTypewriter scopeSelector="#process" />
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {[
+              { title: "Brief", description: "A concise conversation to define tone, wardrobe, and the look of the project." },
+              { title: "Shoot", description: "A calm, detail-oriented session with an editorial approach to light and movement." },
+              { title: "Deliver", description: "Finished images prepared for digital, editorial, or campaign use." },
+            ].map((item) => (
+              <ScrollReveal key={item.title} className="rounded-[1.75rem] border border-white/10 bg-white/5 p-8" delay={0.14} direction="up">
+                <p className="text-sm font-semibold uppercase tracking-[0.29em] text-muted-foreground">{item.title}</p>
+                <p className="mt-5 text-base leading-7 text-muted-foreground">{item.description}</p>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="mt-24 border-t border-foreground/10 pt-24 pb-36">
+        <div className="max-w-4xl">
+          <div className="space-y-6">
+            <p className="text-sm uppercase tracking-[0.35em] text-muted-foreground">Contact</p>
+            <h2 className="text-4xl font-serif leading-tight tracking-tight text-foreground sm:text-5xl">
+              Let’s discuss your next project.
+            </h2>
+            <HeadingTypewriter scopeSelector="#contact" />
+          </div>
+
+          <ScrollReveal className="mt-10 rounded-[2rem] border border-white/10 bg-white/5 p-10 text-lg leading-8 text-muted-foreground" delay={0.2} direction="up">
+            <p>
+              The strongest way to start is by email. Tell me about your idea, the shoot format, and your timeline.
+            </p>
+            <a
+              href="mailto:y@criptec.io"
+              className="mt-8 inline-flex rounded-full border border-foreground/15 bg-foreground/10 px-8 py-4 text-sm font-semibold text-foreground transition hover:border-foreground/30 hover:bg-foreground/15"
             >
-              <span className="relative z-10">{copy.nav.projectCta}</span>
-              <ArrowUpRight className="relative z-10 h-4 w-4" />
-              <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            </Link>
-          </Button>
+              y@criptec.io
+            </a>
+          </ScrollReveal>
         </div>
       </section>
     </main>

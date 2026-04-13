@@ -4,22 +4,8 @@ import { Fraunces, Inter } from "next/font/google"
 
 import { SiteFooter } from "@/components/core/site-footer"
 import { SiteHeader } from "@/components/core/site-header"
-import { PassiveAnalyticsTracker } from "@/components/core/passive-analytics-tracker"
-import { SiteParticleBackground } from "@/components/core/site-particle-background"
-import { Seo } from "@/components/seo/Seo"
-import { ThemeProvider } from "@/components/core/theme-provider"
-import { getLocaleFromCookies } from "@/lib/locale"
-import {
-  buildLayoutMetadata,
-  buildOrganizationEntity,
-  buildWebSiteEntity,
-  seoConfig,
-} from "@/lib/seo"
-import { getThemeFromRequest } from "@/lib/theme"
 import "./globals.css"
 
-// AGENCY_OWNED: root shell wiring for SEO, theme, locale, and global chrome.
-// Client-specific copy/assets flow through the site-content and page components below.
 const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-fraunces",
@@ -32,76 +18,38 @@ const inter = Inter({
   display: "swap",
 })
 
-const verificationOther: Record<string, string> = {}
-if (process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION) {
-  verificationOther.google = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
-}
-if (process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION) {
-  verificationOther["msvalidate.01"] = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
-}
-if (process.env.NEXT_PUBLIC_FACEBOOK_DOMAIN_VERIFICATION) {
-  verificationOther["facebook-domain-verification"] = process.env.NEXT_PUBLIC_FACEBOOK_DOMAIN_VERIFICATION
-}
-
 export const metadata: Metadata = {
-  ...buildLayoutMetadata(seoConfig, {
-    defaultTitle: seoConfig.site.defaultTitle,
-    description: seoConfig.site.defaultDescription,
-    canonicalPath: "/",
-  }),
-  applicationName: seoConfig.brand.brandName,
+  title: "Aída Maestro | Photographer",
+  description:
+    "Aída Maestro is a professional editorial and commercial photographer creating quiet, considered imagery for brands, portraits, and campaigns.",
+  applicationName: "Aída Maestro Photography",
   keywords: [
-    "web development",
-    "sites web",
-    "SEO técnico",
-    "posicionamiento orgánico",
-    "agencia web",
+    "photography",
+    "editorial photography",
+    "portrait photography",
+    "commercial photography",
+    "photographer landing page",
   ],
-  authors: [{ name: seoConfig.brand.brandName, url: seoConfig.brand.brandUrl }],
-  creator: seoConfig.brand.brandName,
-  publisher: seoConfig.brand.brandName,
-  verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
-    other: verificationOther,
-  },
+  authors: [{ name: "Aída Maestro", url: "https://aida-maestro.com" }],
+  creator: "Aída Maestro",
+  publisher: "Aída Maestro Photography",
   icons: {
-    icon: [
-      {
-        url: "/icon?v=tree",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon?v=tree",
-        media: "(prefers-color-scheme: dark)",
-      },
-    ],
-    apple: "/apple-icon?v=tree",
+    icon: "/icon",
+    apple: "/apple-icon",
   },
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const locale = await getLocaleFromCookies()
-  const theme = await getThemeFromRequest()
-  const organizationJsonLd = buildOrganizationEntity(seoConfig)
-  const websiteJsonLd = buildWebSiteEntity(seoConfig, {
-    searchTarget: `${seoConfig.site.siteUrl}/blog?q={search_term_string}`,
-  })
-
   return (
-    <html lang={locale} className={`${fraunces.variable} ${inter.variable} ${theme === "dark" ? "dark" : ""}`} suppressHydrationWarning>
+    <html lang="en" className={`${fraunces.variable} ${inter.variable}`} suppressHydrationWarning>
       <body className="relative isolate bg-background text-foreground antialiased">
-        <Seo entities={[organizationJsonLd, websiteJsonLd]} />
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <PassiveAnalyticsTracker />
-          <SiteParticleBackground theme={theme} />
-          <SiteHeader locale={locale} />
-          {children}
-          <SiteFooter locale={locale} />
-        </ThemeProvider>
+        <SiteHeader />
+        {children}
+        <SiteFooter />
       </body>
     </html>
   )
